@@ -1,0 +1,7 @@
+setting,test_population,recall,fpr
+Random stratified split (reference),30780,0.9996,0.0064
+Within-session ordered hold-out,30779,0.9993,0.0038
+"Ordered-block hold-out (first 70% train, last 30% test)",36936,0.8452,undefined (no benign flows)
+Leave-one-attack-family-out (range over nine families),family + benign test flows,0.260-1.000,0.0003-0.0077
+Transfer RT-IoT2022 -> CIC-IDS2017 (pooled),2830743,0.934,0.889
+Reverse transfer CIC-IDS2017 -> RT-IoT2022,30780,0.0001,0.0

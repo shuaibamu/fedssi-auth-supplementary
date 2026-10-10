@@ -1,0 +1,17 @@
+function,gas_median,min,max_or_note
+DIDRegistry (deployment),319719,,
+RevocationList (deployment),209210,,
+TrustAnchorRegistry (deployment),454525,,
+registerDomain,48326.0,48320,48332
+registerDID,91150.0,91126,91150
+updateDIDDocument,36228,36228,36228
+deactivateDID,30343,30343,30343
+createList,45727,45727,45727
+addTrustAssertion,139115,139115,139115
+revokeTrustAssertion,32640,32640,32640
+revokeIndex_first_bit_in_word,47950.0,47944,47956
+revokeIndex_bit_in_populated_word,30844,30844,30844
+resolveDID (read-only; gas if sent as transaction),28407,,call median 17.9 ms
+resolveDIDs (read-only; gas if sent as transaction),31076,,call median 16.1 ms
+isRevoked (read-only; gas if sent as transaction),24313,,call median 15.7 ms
+isTrusted (read-only; gas if sent as transaction),26049,,call median 16.2 ms

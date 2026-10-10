@@ -1,0 +1,10 @@
+file,benign,attack,tp,fn,fp,tn,recall,fpr,auc
+Friday-WorkingHours-Afternoon-DDos,97718,128027,114285,13742,89384,8334,0.893,0.915,0.58
+Friday-WorkingHours-Afternoon-PortScan,127537,158930,158879,51,112678,14859,1.0,0.883,0.67
+Friday-WorkingHours-Morning,189067,1966,1962,4,166504,22563,0.998,0.881,0.4
+Monday-WorkingHours,529918,0,0,0,471897,58021,,0.891,
+Thursday-WorkingHours-Afternoon-Infilteration,288566,36,29,7,264099,24467,0.806,0.915,0.36
+Thursday-WorkingHours-Morning-WebAttacks,168186,2180,1552,628,145557,22629,0.712,0.865,0.2
+Tuesday-WorkingHours,432074,13835,13814,21,380036,52038,0.998,0.88,0.58
+Wednesday-workingHours,440031,252672,230459,22213,390863,49168,0.912,0.888,0.54
+Pooled,2273097,557646,520980,36666,2021018,252079,0.934,0.889,0.58

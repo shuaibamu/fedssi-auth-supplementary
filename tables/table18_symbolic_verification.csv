@@ -1,0 +1,7 @@
+model,P1,P2,P3,P4,P5,seconds
+Full protocol (Algorithm 1),proved,proved,proved,proved,proved,8.59
+Without the holderKey check (step 13),proved,proved,attack,proved,proved,12.62
+Without the holder signature (step 15),attack,attack,proved,proved,proved,8.60
+Without the channel identifier in ph,attack,attack,proved,proved,proved,12.22
+Without any challenge binding (ph constant),attack,attack,proved,proved,proved,6.12
+Challenge not consumed on acceptance,proved,attack,proved,proved,proved,12.77

@@ -1,0 +1,27 @@
+id,case,expected_outcome,in_memory_run,live_contract_run
+P1,"valid credential, honest holder, fresh challenge",accept,pass,pass
+P2,undisclosed attributes absent from presentation,hidden_not_sent,pass,pass
+N1,victim credential + attacker-registered DID/key (holder binding),holder_binding_mismatch,pass,pass
+N1b,"victim DID + credential, attacker signature key",holder_signature_invalid,pass,pass
+N1c,issuance without holder proof-of-possession,pop_refused,pass,pass
+N2,replay of earlier presentation in a new session,bbs_proof_invalid,pass,pass
+N2b,second use of a consumed session challenge,sid_unknown_or_reused,pass,pass
+N3,relay to a different verifier gateway,bbs_proof_invalid,pass,pass
+N4,relay over a different channel (channel binding),bbs_proof_invalid,pass,pass
+N4b,scope substitution,bbs_proof_invalid,pass,pass
+N5,tampered disclosed claim,bbs_proof_invalid,pass,pass
+N6,expired credential,credential_expired,pass,pass
+N6b,stale challenge (older than permitted skew),stale_challenge,pass,pass
+N7,revoked credential (status list bit set),revoked,pass,pass
+N8,issuer without trust assertion,untrusted_issuer,pass,pass
+N8b,expired trust assertion,untrusted_issuer,pass,pass
+N8c,revoked trust assertion,untrusted_issuer,pass,pass
+N8d,trust assertion written by non-admin (T4),write_refused,pass,pass
+N9,deactivated holder DID,holder_inactive_or_unknown,pass,pass
+N10,DID document altered off-chain (hash mismatch),doc_hash_mismatch,pass,pass
+N11,credential forged under an unregistered issuer key,bbs_proof_invalid,pass,pass
+N12,token presented to a different audience,wrong_audience,pass,pass
+N12b,expired token,token_expired,pass,pass
+N12c,token with altered scope,bad_signature,pass,pass
+N12d,token for a different scope than the resource requires,scope_mismatch,pass,pass
+N12e,token of a revoked (behaviourally flagged) session,session_revoked,pass,pass

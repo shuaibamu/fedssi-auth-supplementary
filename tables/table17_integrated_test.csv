@@ -1,0 +1,11 @@
+credential_state|traffic,outcomes (count of 40 sessions)
+valid|benign,accept=40
+valid|malicious,behavioural_reject=40
+revoked|benign,revoked=40
+revoked|malicious,revoked=40
+expired|benign,credential_expired=40
+expired|malicious,credential_expired=40
+untrusted_issuer|benign,untrusted_issuer=40
+untrusted_issuer|malicious,untrusted_issuer=40
+stolen_credential|benign,holder_binding_mismatch=40
+stolen_credential|malicious,holder_binding_mismatch=40

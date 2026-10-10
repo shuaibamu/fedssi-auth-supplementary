@@ -1,0 +1,7 @@
+configuration,n_features,macro_f1,f1_unauthorized,recall,fpr
+"Full model (RF, all 82 features, 100 trees)",82,0.9971,0.9994,0.9996,0.0064
+"- categorical features (proto, service)",80,0.9969,0.9994,0.9995,0.007
+"- temporal features (26: duration, IAT, active, idle)",56,0.9966,0.9993,0.9995,0.008
+"- port numbers (id.orig_p, id.resp_p)",80,0.992,0.9984,0.9977,0.0086
+Reduced ensemble (50 trees),82,0.997,0.9994,0.9996,0.007
+No behavioural gate (baseline under the stated assumption),,0.0922,0.0,0.0,0.0

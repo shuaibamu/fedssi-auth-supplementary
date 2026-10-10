@@ -1,0 +1,13 @@
+class,kind,precision,recall,f1,support,binary_gate_flagged,binary_gate_n,binary_gate_rate
+DOS_SYN_Hping,attack,1.0,1.0,1.0,23665,23665,23665,1.0
+Thing_Speak,normal,0.9906,0.9891,0.9899,2027,17,2027,0.0084
+ARP_poisioning,attack,0.9877,0.9923,0.99,1938,1926,1938,0.9938
+MQTT_Publish,normal,0.9981,0.9971,0.9976,1037,2,1037,0.0019
+NMAP_UDP_SCAN,attack,0.9923,0.9954,0.9938,648,648,648,1.0
+NMAP_XMAS_TREE_SCAN,attack,0.998,0.996,0.997,503,503,503,1.0
+NMAP_OS_DETECTION,attack,1.0,1.0,1.0,500,500,500,1.0
+NMAP_TCP_scan,attack,1.0,1.0,1.0,250,250,250,1.0
+DDOS_Slowloris,attack,1.0,0.9774,0.9886,133,133,133,1.0
+Wipro_bulb,normal,0.9828,0.9048,0.9421,63,1,63,0.0159
+Metasploit_Brute_Force_SSH,attack,0.8182,1.0,0.9,9,9,9,1.0
+NMAP_FIN_SCAN,attack,0.8571,0.8571,0.8571,7,7,7,1.0

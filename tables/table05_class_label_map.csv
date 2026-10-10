@@ -1,0 +1,16 @@
+original_class,binary_label,full,train,test
+DOS_SYN_Hping,Unauthorized (1),94659,70994,23665,23066
+Thing_Speak,Authorized (0),8108,6081,2027,1976
+ARP_poisioning,Unauthorized (1),7750,5812,1938,1888
+MQTT_Publish,Authorized (0),4146,3109,1037,1010
+NMAP_UDP_SCAN,Unauthorized (1),2590,1942,648,631
+NMAP_XMAS_TREE_SCAN,Unauthorized (1),2010,1507,503,490
+NMAP_OS_DETECTION,Unauthorized (1),2000,1500,500,487
+NMAP_TCP_scan,Unauthorized (1),1002,752,250,244
+DDOS_Slowloris,Unauthorized (1),534,401,133,130
+Wipro_bulb,Authorized (0),253,190,63,62
+Metasploit_Brute_Force_SSH,Unauthorized (1),37,28,9,9
+NMAP_FIN_SCAN,Unauthorized (1),28,21,7,7
+Total Authorized,Authorized (0),12507,9380,3127
+Total Unauthorized,Unauthorized (1),110610,82957,27653
+All flows,,123117,92337,30780

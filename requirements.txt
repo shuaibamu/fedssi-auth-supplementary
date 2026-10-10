@@ -1,0 +1,14 @@
+# Python 3.12; Java 21 and Node.js are needed for the Besu experiments (see scripts/setup_environment.sh)
+numpy==2.4.4
+pandas==3.0.2
+scipy==1.17.1
+scikit-learn==1.8.0
+joblib==1.5.3
+matplotlib==3.10.8
+seaborn==0.13.2
+psutil==7.2.2
+web3==8.0.0
+eth-account==0.14.0
+cryptography==46.0.6
+py-ecc==8.0.0
+py_arkworks_bls12381==0.5.0
