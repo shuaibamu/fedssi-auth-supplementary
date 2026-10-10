@@ -16,7 +16,20 @@ Code, contracts, configuration, results and logs for the paper *FedSSI-Auth: Cro
 | `config/` | Besu genesis and node configuration (QBFT, block period 2 s) used for the 1-, 4- and 7-validator networks; Algorithm 1 text |
 | `results/` | All stored results: label map, split indices, fold scores, test scores and raw predicted probabilities (`*.npz`), threshold sweep (`threshold_sweep_oof.json`), trained Random Forest (`rf_binary_fulltrain.joblib`), statistics, hold-out, transfer, gas, benchmark and integrated-test outputs, 61-feature mapping |
 
-|
+**#Supporting files**
+| Paper item | File |
+|---|---|
+| Table 5 (class to binary label) | `tables/table05_class_label_map.csv` |
+| Tables 6-8 (performance, cross-validation, paired tests) | `tables/table06-08*.csv`, `results/test_results_full.json`, `cv_fold_scores_full.json`, `stats_tests_full.json` |
+| Table 9, Figure 11 (per class, confusion matrices) | `tables/table09_per_class.csv`, `results/multiclass_and_family_results.json` |
+| Table 10, Figure 12 (ablation) | `tables/table10_ablation.csv`, `results/ablation.json` |
+| Table 11 (gas) | `tables/table11_gas.csv`, `results/gas_table.json` |
+| Table 12, Figure 13 (live benchmark) | `tables/table12_live_benchmark.csv`, `results/bench_live.json` |
+| Tables 13-15 (hold-out and transfer) | `tables/table13-15*.csv`, `results/harder_validation.json`, `cic_transfer.json`, `cic_controls.json` |
+| Tables 16-17 (protocol and integrated tests) | `tables/table16-17*.csv`, `results/protocol_tests_*.json`, `integrated_*.json` |
+| Table 18 (Tamarin results) | `formal/results_summary.csv`, `formal/*.out`, `formal/*.spthy` |
+| 61-feature mapping between RT-IoT2022 and CIC-IDS2017 | `results/table_feature_mapping_61.csv` |
+| Figure 8 (threshold sweep, calibration, scores) | `results/threshold_sweep_oof.json`, `threshold_calibration_seeds.json`, `test_scores_full.npz` ||
 
 ## Environment
 
