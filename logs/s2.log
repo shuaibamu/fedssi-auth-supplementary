@@ -1,0 +1,14 @@
+[      4s] CV LR: macroF1 folds 0.9287 0.9282 0.9310 0.9337 0.9331
+[      6s] CV DT: macroF1 folds 0.9945 0.9927 0.9941 0.9904 0.9913
+[     11s] CV kNN: macroF1 folds 0.9877 0.9863 0.9872 0.9895 0.9876
+[     27s] CV SVM-RBF: macroF1 folds 0.9462 0.9476 0.9375 0.9454 0.9477
+[     71s] CV GB: macroF1 folds 0.9954 0.9950 0.9918 0.9913 0.9931
+[     79s] CV RF: macroF1 folds 0.9968 0.9931 0.9959 0.9927 0.9936
+[     80s] TEST LR: precision=0.9981 recall=0.9701 f1_attack=0.9839 macro_f1=0.9293 fpr=0.0166 roc_auc=0.9954 fit=1s
+[     80s] TEST DT: precision=0.9986 recall=0.9983 f1_attack=0.9985 macro_f1=0.9924 fpr=0.0125 roc_auc=0.9931 fit=0s
+[     96s] TEST kNN: precision=0.9969 recall=0.9982 f1_attack=0.9975 macro_f1=0.9878 fpr=0.0272 roc_auc=0.9955 fit=0s
+[    113s] TEST SVM-RBF: precision=0.9980 recall=0.9800 f1_attack=0.9889 macro_f1=0.9494 fpr=0.0173 roc_auc=0.9987 fit=4s
+[    124s] TEST GB: precision=0.9984 recall=0.9991 f1_attack=0.9987 macro_f1=0.9938 fpr=0.0141 roc_auc=0.9998 fit=11s
+[    126s] TEST RF: precision=0.9986 recall=0.9988 f1_attack=0.9987 macro_f1=0.9938 fpr=0.0122 roc_auc=0.9995 fit=2s
+[    134s] RF full-train: {'precision': 0.99928, 'recall': 0.99957, 'fpr': 0.0064, 'f1_attack': 0.99942, 'f1_benign': 0.99488, 'macro_f1': 0.99715, 'accuracy': 0.99896, 'roc_auc': 0.99998, 'pr_auc': 1.0, 'fit_seconds': 8.05739}
+[    134s] DONE

@@ -1,0 +1,157 @@
+theory FedSSI_Auth
+begin
+
+/* Symbolic (Dolev-Yao) model of the cryptographic core of Algorithm 1 (steps 1-15, 17-18).
+   - BBS+ is abstracted: a proof can be generated only from the issuer's signature on the message
+     (bbsSign), is bound to the presentation header ph, and verifies only against the issuer's public key.
+   - Credentials are treated as public (worst case for credential theft); device keys are non-extractable.
+   - The traffic gate (step 16) and the re-scoring (step 19) are statistical and are NOT part of the model.
+   - Issuer keys and administrator keys are uncompromised (as in the threat model); the adversary is the network
+     and can register DIDs of its own, run its own device ('M'), and open its own channels. */
+
+builtins: hashing, signing
+functions: bbsSign/2, proofGen/3, pverify/4
+equations: pverify(proofGen(bbsSign(sk, m), m, ph), pk(sk), m, ph) = true
+
+restriction Equality:   "All x y #i. Eq(x, y) @ i ==> x = y"
+restriction UniqueDID:  "All d k1 k2 #i #j. RegDID(d, k1) @ i & RegDID(d, k2) @ j ==> #i = #j"
+restriction NotAdversary: "All x #i. HonestName(x) @ i ==> not (x = 'M')"
+
+/* ---------- enrolment, registry, issuers, administrator ---------- */
+rule Enrol_Holder:
+  [ Fr(~skH) ]
+  --[ HonestHolder($H, pk(~skH)), RegDID($H, pk(~skH)), HonestName($H) ]->
+  [ !Holder($H, ~skH), !Registry($H, pk(~skH)), Out(pk(~skH)) ]
+
+rule Register_Adversary_DID:      // the adversary registers any DID/key pair, including copies of honest public keys
+  [ In(<$D, k>) ]
+  --[ RegDID($D, k) ]->
+  [ !Registry($D, k) ]
+
+rule Setup_Issuer:
+  [ Fr(~skI) ]
+  --[ HonestName($I), HonestIssuer($I) ]->
+  [ !IssuerKey($I, ~skI), !IssuerPub($I, pk(~skI)), Out(pk(~skI)) ]
+
+rule Admin_Trusts_Issuer:         // only the administrator of the verifying domain writes trust assertions
+  [ !IssuerPub($I, pkI) ]
+  --[ Trusted($D, $I) ]->
+  [ !Trust($D, $I, pkI) ]
+
+rule Issue_To_Honest_Holder:
+  let hk = h(pk(~skH))
+      m  = <'cred', hk, $C, $I>
+  in
+  [ !Holder($H, ~skH), !IssuerKey($I, ~skI) ]
+  --[ Issued($I, hk, $C) ]->
+  [ !HolderCred($H, $I, $C, bbsSign(~skI, m)), Out(bbsSign(~skI, m)) ]
+
+rule Issue_After_Possession_Proof:   // issuer verifies a proof of possession of the key before binding the credential to it
+  let m = <'cred', h(pkM), $C, $I>
+  in
+  [ !IssuerKey($I, ~skI), In(<pkM, sigPop>) ]
+  --[ Eq(verify(sigPop, <'pop', $I, pkM>, pkM), true), Issued($I, h(pkM), $C) ]->
+  [ Out(bbsSign(~skI, m)) ]
+
+/* ---------- verifier, relying party ---------- */
+rule Setup_Verifier:
+  [ Fr(~skV) ]
+  --[ HonestName($V), HonestVerifier($V) ]->
+  [ !VKey($V, ~skV), !VPub($V, pk(~skV)), Out(pk(~skV)) ]
+
+/* ---------- transport channels (server-authenticated; the channel identifier is known to its endpoints only) ---------- */
+rule Channel_From_Honest_Holder:
+  [ Fr(~ch), !Holder($H, skH) ]
+  --[ ChanOpen(~ch, $H, $P) ]->
+  [ !ChanC(~ch, $H, $P), !ChanS(~ch, $P) ]
+
+rule Channel_From_Adversary:
+  [ Fr(~ch) ]
+  --[ ChanOpen(~ch, 'M', $P) ]->
+  [ !ChanS(~ch, $P), Out(~ch) ]
+
+rule Channel_Endpoint_Is_Adversary:
+  [ !ChanC(ch, $H, 'M') ]
+  -->
+  [ Out(ch) ]
+
+/* ---------- protocol ---------- */
+rule H_Start:                      // step 1 (the holder does not authenticate the verifier beyond what the channel gives)
+  [ !ChanC(ch, $H, $P), !Holder($H, skH) ]
+  --[ HStart($H, ch, $P, $S, $D) ]->
+  [ St_H($H, $S, $D, ch), Out(<'req', $H, $S, $D>) ]
+
+rule V_Challenge:                  // steps 2-3
+  [ !VKey($V, skV), !ChanS(ch, $V), In(<'req', did, $S, $D>), Fr(~n), Fr(~sid) ]
+  --[ Challenge($V, ~sid, ~n, ch) ]->
+  [ @@STV@@($V, did, $S, $D, ~n, ~sid, ch), Out(<'chal', ~n, $V, ~sid>) ]
+
+rule H_Present:                    // steps 4-5
+  let hk = h(pk(skH))
+      m  = <'cred', hk, $C, $I>
+      ph = @@PH_H@@
+      pi = proofGen(cred, m, ph)
+      sg = sign(h(<ph, pi, m>), skH)
+  in
+  [ St_H($H, $S, $D, ch), !Holder($H, skH), !HolderCred($H, $I, $C, cred), In(<'chal', n, Vid, sid>) ]
+  --[ HPresent($H, pk(skH), Vid, sid, $S, $D, ch, $I, $C) ]->
+  [ Out(<'pres', $H, m, pi, @@SIG_OUT@@>) ]
+
+rule V_Verify:                     // steps 6-15 and 17
+  let ph = @@PH_V@@
+  in
+  [ @@STV@@($V, did, $S, $D, n, sid, ch), !VKey($V, skV), !Registry(did, pkDoc), !Trust($D, $I, pkI),
+    In(<'pres', did, <'cred', hk, $C, $I>, pi, sg>) ]
+  --[ Eq(pverify(pi, pkI, <'cred', hk, $C, $I>, ph), true),
+      @@HK_CHECK@@
+      @@SIG_CHECK@@
+      VAccept($V, did, pkDoc, $I, $C, sid, $S, $D, ch),
+      VIssue($V, did, $D, $S, sid, h(pkDoc)) ]->
+  [ Out(<<'tok', did, $D, $S, sid, h(pkDoc)>, sign(<'tok', did, $D, $S, sid, h(pkDoc)>, skV)>) ]
+
+rule R_Verify:                     // step 18
+  [ !VPub($V, pkV), In(<<'tok', did, $D, $S, sid, cnf>, sig>) ]
+  --[ Eq(verify(sig, <'tok', did, $D, $S, sid, cnf>, pkV), true), RAccept($V, did, $D, $S, sid, cnf) ]->
+  [ ]
+
+/* ---------- executability ---------- */
+lemma executable_accept: exists-trace
+  "Ex V did pk I C sid S D ch #i #j. VAccept(V, did, pk, I, C, sid, S, D, ch) @ i & HonestHolder(did, pk) @ j"
+
+lemma executable_relying_party: exists-trace
+  "Ex V did D S sid cnf #i. RAccept(V, did, D, S, sid, cnf) @ i"
+
+/* ---------- security properties ---------- */
+// P1  Authentication of the holder: an accepted presentation of an honest device's DID and key was produced by that device,
+//     for this verifier, session, scope, domain and channel.
+lemma P1_agreement_with_honest_holder:
+  "All V did pk I C sid S D ch #i #k.
+      VAccept(V, did, pk, I, C, sid, S, D, ch) @ i & HonestHolder(did, pk) @ k
+      ==> (Ex #j. HPresent(did, pk, V, sid, S, D, ch, I, C) @ j & j < i)"
+
+// P2  Injective agreement: every acceptance corresponds to a distinct presentation (no replay).
+lemma P2_injective_agreement:
+  "All V did pk I C sid S D ch #i #k.
+      VAccept(V, did, pk, I, C, sid, S, D, ch) @ i & HonestHolder(did, pk) @ k
+      ==> (Ex #j. HPresent(did, pk, V, sid, S, D, ch, I, C) @ j & j < i
+                  & not (Ex #i2. VAccept(V, did, pk, I, C, sid, S, D, ch) @ i2 & not (#i2 = #i)))"
+
+// P3  Credential-holder binding: the accepted credential was issued to the key that signed the presentation.
+lemma P3_credential_issued_to_presenter:
+  "All V did pk I C sid S D ch #i.
+      VAccept(V, did, pk, I, C, sid, S, D, ch) @ i
+      ==> (Ex #j. Issued(I, h(pk), C) @ j & j < i)"
+
+// P4  Cross-domain trust: only an issuer for which the verifying domain's administrator wrote an assertion is accepted.
+lemma P4_issuer_trusted_by_administrator:
+  "All V did pk I C sid S D ch #i.
+      VAccept(V, did, pk, I, C, sid, S, D, ch) @ i
+      ==> (Ex #j. Trusted(D, I) @ j & j < i)"
+
+// P5  Token origin: the relying party accepts a token only if the gateway issued it for the same holder, audience, scope and session.
+lemma P5_token_origin:
+  "All V did D S sid cnf #i.
+      RAccept(V, did, D, S, sid, cnf) @ i
+      ==> (Ex #j. VIssue(V, did, D, S, sid, cnf) @ j & j < i)"
+
+end

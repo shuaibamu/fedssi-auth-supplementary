@@ -1,0 +1,15 @@
+[    17s] chain up
+[    31s] setup done
+[    34s] valid              x benign   : {'accept': 40}
+[    38s] valid              x malicious: {'behavioural_reject': 40}
+[    40s] revoked            x benign   : {'revoked': 40}
+[    42s] revoked            x malicious: {'revoked': 40}
+[    44s] expired            x benign   : {'credential_expired': 40}
+[    46s] expired            x malicious: {'credential_expired': 40}
+[    48s] untrusted_issuer   x benign   : {'untrusted_issuer': 40}
+[    49s] untrusted_issuer   x malicious: {'untrusted_issuer': 40}
+[    51s] stolen_credential  x benign   : {'holder_binding_mismatch': 40}
+[    52s] stolen_credential  x malicious: {'holder_binding_mismatch': 40}
+[    59s] post-issuance: {"sessions": 100, "admitted": 97, "not_admitted": 3, "blocked": 97, "flows_until_block_median": 1, "flows_until_block_max": 1, "observed_seconds_median": 6e-06, "observed_seconds_p95": 24.210056, "rp_accepts_after_revocation": 0}
+[    71s] latency: {"n": 196, "holder_present_ms_median": 5.18745149999944, "gateway_total_ms_median": 45.62992350000172, "gateway_total_ms_p95": 84.6690700000039, "sessions_per_second_single_thread": 19.28428703827189, "stages_ms_median": {"prep": 0.008168500002625478, "chain_resolveDIDs": 8.852461999993011, "doc_check": 0.2392860000028918, "chain_isTrusted": 8.187898500004565, "chain_isRevoked": 7.542446000002201, "claims": 0.012028000000441352, "bbs_verify": 6.971749999998167, "holder_sig_verify": 0.23133199999136878, "classifier": 9.786912999992126, "token_sign": 0.10549749999455571}}
+[    74s] DONE

@@ -1,0 +1,33 @@
+[    16s] 1-validator QBFT network up, block 3
+[    19s] deployed: {'DIDRegistry': 319719, 'RevocationList': 209210, 'TrustAnchorRegistry': 454525}
+[    38s] gas: {"registerDomain": 48326.0, "registerDID": 91150.0, "updateDIDDocument": 36228, "deactivateDID": 30343, "createList": 45727, "addTrustAssertion": 139115, "revokeTrustAssertion": 32640, "revokeIndex_first_bit_in_word": 47950.0, "revokeIndex_bit_in_populated_word": 30844}
+[    38s] views: {"resolveDID": [28407, 17.9], "resolveDIDs": [31076, 16.1], "isRevoked": [24313, 15.7], "isTrusted": [26049, 16.2]}
+PASS P1 valid credential, honest holder, fresh challenge            expected=accept                       observed=accept
+PASS P2 undisclosed attributes absent from presentation             expected=hidden_not_sent              observed=hidden_not_sent
+PASS N1 victim credential + attacker-registered DID/key (holder binding) expected=holder_binding_mismatch      observed=holder_binding_mismatch
+PASS N1b victim DID + credential, attacker signature key            expected=holder_signature_invalid     observed=holder_signature_invalid
+PASS N1c issuance without holder proof-of-possession                expected=pop_refused                  observed=pop_refused
+PASS N2 replay of earlier presentation in a new session             expected=bbs_proof_invalid            observed=bbs_proof_invalid
+PASS N2b second use of a consumed session challenge                 expected=sid_unknown_or_reused        observed=sid_unknown_or_reused
+PASS N3 relay to a different verifier gateway                       expected=bbs_proof_invalid            observed=bbs_proof_invalid
+PASS N4 relay over a different channel (channel binding)            expected=bbs_proof_invalid            observed=bbs_proof_invalid
+PASS N4b scope substitution                                         expected=bbs_proof_invalid            observed=bbs_proof_invalid
+PASS N5 tampered disclosed claim                                    expected=bbs_proof_invalid            observed=bbs_proof_invalid
+PASS N6 expired credential                                          expected=credential_expired           observed=credential_expired
+PASS N6b stale challenge (older than permitted skew)                expected=stale_challenge              observed=stale_challenge
+PASS N7 revoked credential (status list bit set)                    expected=revoked                      observed=revoked
+PASS N8 issuer without trust assertion                              expected=untrusted_issuer             observed=untrusted_issuer
+PASS N8b expired trust assertion                                    expected=untrusted_issuer             observed=untrusted_issuer
+PASS N8c revoked trust assertion                                    expected=untrusted_issuer             observed=untrusted_issuer
+PASS N8d trust assertion written by non-admin (T4)                  expected=write_refused                observed=write_refused
+PASS N9 deactivated holder DID                                      expected=holder_inactive_or_unknown   observed=holder_inactive_or_unknown
+PASS N10 DID document altered off-chain (hash mismatch)             expected=doc_hash_mismatch            observed=doc_hash_mismatch
+PASS N11 credential forged under an unregistered issuer key         expected=bbs_proof_invalid            observed=bbs_proof_invalid
+PASS N12 token presented to a different audience                    expected=wrong_audience               observed=wrong_audience
+PASS N12b expired token                                             expected=token_expired                observed=token_expired
+PASS N12c token with altered scope                                  expected=bad_signature                observed=bad_signature
+PASS N12d token for a different scope than the resource requires    expected=scope_mismatch               observed=scope_mismatch
+PASS N12e token of a revoked (behaviourally flagged) session        expected=session_revoked              observed=session_revoked
+chain: 26/26 passed
+[    57s] chain protocol tests: 26/26
+[    60s] DONE

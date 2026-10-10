@@ -1,0 +1,10 @@
+[      7s] in-domain 61-feature control: macroF1 0.99186 recall 0.99761 fpr 0.00831
+[     11s] Friday-WorkingHours-Afternoon-DDos: n=225745 harmonized: rec=0.8927 fpr=0.9147 | naive: rec=0.8933 fpr=0.9266
+[     16s] Friday-WorkingHours-Afternoon-PortScan: n=286467 harmonized: rec=0.9997 fpr=0.8835 | naive: rec=0.9997 fpr=0.8986
+[     19s] Friday-WorkingHours-Morning: n=191033 harmonized: rec=0.9980 fpr=0.8807 | naive: rec=0.9980 fpr=0.8940
+[     29s] Monday-WorkingHours: n=529918 harmonized: rec=nan fpr=0.8905 | naive: rec=nan fpr=0.9024
+[     34s] Thursday-WorkingHours-Afternoon-Infilteration: n=288602 harmonized: rec=0.8056 fpr=0.9152 | naive: rec=0.8056 fpr=0.9253
+[     37s] Thursday-WorkingHours-Morning-WebAttacks: n=170366 harmonized: rec=0.7119 fpr=0.8655 | naive: rec=0.9303 fpr=0.8886
+[     45s] Tuesday-WorkingHours: n=445909 harmonized: rec=0.9985 fpr=0.8796 | naive: rec=0.9984 fpr=0.8933
+[     57s] Wednesday-workingHours: n=692703 harmonized: rec=0.9121 fpr=0.8883 | naive: rec=0.9144 fpr=0.9015
+[     57s] DONE

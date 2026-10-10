@@ -1,0 +1,30 @@
+{
+ "temporal_features": [
+  "flow_duration",
+  "fwd_iat.min",
+  "fwd_iat.max",
+  "fwd_iat.tot",
+  "fwd_iat.avg",
+  "fwd_iat.std",
+  "bwd_iat.min",
+  "bwd_iat.max",
+  "bwd_iat.tot",
+  "bwd_iat.avg",
+  "bwd_iat.std",
+  "flow_iat.min",
+  "flow_iat.max",
+  "flow_iat.tot",
+  "flow_iat.avg",
+  "flow_iat.std",
+  "active.min",
+  "active.max",
+  "active.tot",
+  "active.avg",
+  "active.std",
+  "idle.min",
+  "idle.max",
+  "idle.tot",
+  "idle.avg",
+  "idle.std"
+ ]
+}

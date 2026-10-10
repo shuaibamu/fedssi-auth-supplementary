@@ -1,0 +1,745 @@
+maude tool: 'maude'
+ checking version: 3.3.1. OK.
+ checking installation: OK.
+[Theory FedSSI_Auth_Control_no_challenge_binding] Theory loaded
+[Theory FedSSI_Auth_Control_no_challenge_binding] Theory translated
+[Theory FedSSI_Auth_Control_no_challenge_binding] Derivation checks started
+[Theory FedSSI_Auth_Control_no_challenge_binding] Derivation checks ended
+[Theory FedSSI_Auth_Control_no_challenge_binding] Theory closed
+[Saturating Sources] Step 1 (Max 5)
+[Saturating Sources] Done
+theory FedSSI_Auth_Control_no_challenge_binding begin
+
+// Function signature and definition of the equational theory E
+
+functions: bbsSign/2, fst/1, h/1, pair/2, pk/1, proofGen/3, pverify/4,
+           sign/2, snd/1, true/0, verify/3
+equations:
+    fst(<x.1, x.2>) = x.1,
+    pverify(proofGen(bbsSign(sk, m), m, ph), pk(sk), m, ph) = true,
+    snd(<x.1, x.2>) = x.2,
+    verify(sign(x.1, x.2), x.1, pk(x.2)) = true
+
+
+
+
+
+
+
+
+
+restriction Equality:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+  // safety formula
+
+restriction UniqueDID:
+  "∀ d k1 k2 #i #j.
+    ((RegDID( d, k1 ) @ #i) ∧ (RegDID( d, k2 ) @ #j)) ⇒ (#i = #j)"
+  // safety formula
+
+restriction NotAdversary:
+  "∀ x #i. (HonestName( x ) @ #i) ⇒ (¬(x = 'M'))"
+  // safety formula
+
+rule (modulo E) Enrol_Holder:
+   [ Fr( ~skH ) ]
+  --[
+  HonestHolder( $H, pk(~skH) ), RegDID( $H, pk(~skH) ), HonestName( $H )
+  ]->
+   [ !Holder( $H, ~skH ), !Registry( $H, pk(~skH) ), Out( pk(~skH) ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Register_Adversary_DID:
+   [ In( <$D, k> ) ] --[ RegDID( $D, k ) ]-> [ !Registry( $D, k ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Setup_Issuer:
+   [ Fr( ~skI ) ]
+  --[ HonestName( $I ), HonestIssuer( $I ) ]->
+   [ !IssuerKey( $I, ~skI ), !IssuerPub( $I, pk(~skI) ), Out( pk(~skI) ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Admin_Trusts_Issuer:
+   [ !IssuerPub( $I, pkI ) ]
+  --[ Trusted( $D, $I ) ]->
+   [ !Trust( $D, $I, pkI ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Issue_To_Honest_Holder:
+   [ !Holder( $H, ~skH ), !IssuerKey( $I, ~skI ) ]
+  --[ Issued( $I, h(pk(~skH)), $C ) ]->
+   [
+   !HolderCred( $H, $I, $C, bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>) ),
+   Out( bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>) )
+   ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Issue_After_Possession_Proof:
+   [ !IssuerKey( $I, ~skI ), In( <pkM, sigPop> ) ]
+  --[
+  Eq( verify(sigPop, <'pop', $I, pkM>, pkM), true ),
+  Issued( $I, h(pkM), $C )
+  ]->
+   [ Out( bbsSign(~skI, <'cred', h(pkM), $C, $I>) ) ]
+
+  /*
+  rule (modulo AC) Issue_After_Possession_Proof:
+     [ !IssuerKey( $I, ~skI ), In( <pkM, sigPop> ) ]
+    --[ Eq( z, true ), Issued( $I, h(pkM), $C ) ]->
+     [ Out( bbsSign(~skI, <'cred', h(pkM), $C, $I>) ) ]
+    variants (modulo AC)
+    1. $I    = $I.9
+       pkM   = pkM.11
+       sigPop
+             = sigPop.12
+       z     = verify(sigPop.12, <'pop', $I.9, pkM.11>, pkM.11)
+    
+    2. $I    = $I.11
+       pkM   = pk(x.19)
+       sigPop
+             = sign(<'pop', $I.11, pk(x.19)>, x.19)
+       z     = true
+  */
+
+rule (modulo E) Setup_Verifier:
+   [ Fr( ~skV ) ]
+  --[ HonestName( $V ), HonestVerifier( $V ) ]->
+   [ !VKey( $V, ~skV ), !VPub( $V, pk(~skV) ), Out( pk(~skV) ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Channel_From_Honest_Holder:
+   [ Fr( ~ch ), !Holder( $H, skH ) ]
+  --[ ChanOpen( ~ch, $H, $P ) ]->
+   [ !ChanC( ~ch, $H, $P ), !ChanS( ~ch, $P ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Channel_From_Adversary:
+   [ Fr( ~ch ) ]
+  --[ ChanOpen( ~ch, 'M', $P ) ]->
+   [ !ChanS( ~ch, $P ), Out( ~ch ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Channel_Endpoint_Is_Adversary:
+   [ !ChanC( ch, $H, 'M' ) ] --> [ Out( ch ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) H_Start:
+   [ !ChanC( ch, $H, $P ), !Holder( $H, skH ) ]
+  --[ HStart( $H, ch, $P, $S, $D ) ]->
+   [ St_H( $H, $S, $D, ch ), Out( <'req', $H, $S, $D> ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) V_Challenge:
+   [
+   !VKey( $V, skV ), !ChanS( ch, $V ), In( <'req', did, $S, $D> ), Fr( ~n ),
+   Fr( ~sid )
+   ]
+  --[ Challenge( $V, ~sid, ~n, ch ) ]->
+   [ St_V( $V, did, $S, $D, ~n, ~sid, ch ), Out( <'chal', ~n, $V, ~sid> ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) H_Present:
+   [
+   St_H( $H, $S, $D, ch ), !Holder( $H, skH ),
+   !HolderCred( $H, $I, $C, cred ), In( <'chal', n, Vid, sid> )
+   ]
+  --[ HPresent( $H, pk(skH), Vid, sid, $S, $D, ch, $I, $C ) ]->
+   [
+   Out( <'pres', $H, <'cred', h(pk(skH)), $C, $I>, 
+         proofGen(cred, <'cred', h(pk(skH)), $C, $I>, 'none'), 
+         sign(h(<'none', proofGen(cred, <'cred', h(pk(skH)), $C, $I>, 'none'), 
+                 'cred', h(pk(skH)), $C, $I>),
+              skH)
+        >
+   )
+   ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) V_Verify:
+   [
+   St_V( $V, did, $S, $D, n, sid, ch ), !VKey( $V, skV ),
+   !Registry( did, pkDoc ), !Trust( $D, $I, pkI ),
+   In( <'pres', did, <'cred', hk, $C, $I>, pi, sg> )
+   ]
+  --[
+  Eq( pverify(pi, pkI, <'cred', hk, $C, $I>, 'none'), true ),
+  Eq( hk, h(pkDoc) ),
+  Eq( verify(sg, h(<'none', pi, 'cred', hk, $C, $I>), pkDoc), true ),
+  VAccept( $V, did, pkDoc, $I, $C, sid, $S, $D, ch ),
+  VIssue( $V, did, $D, $S, sid, h(pkDoc) )
+  ]->
+   [
+   Out( <<'tok', did, $D, $S, sid, h(pkDoc)>, 
+         sign(<'tok', did, $D, $S, sid, h(pkDoc)>, skV)>
+   )
+   ]
+
+  /*
+  rule (modulo AC) V_Verify:
+     [
+     St_V( $V, did, $S, $D, n, sid, ch ), !VKey( $V, skV ),
+     !Registry( did, pkDoc ), !Trust( $D, $I, pkI ),
+     In( <'pres', did, <'cred', hk, $C, $I>, pi, sg> )
+     ]
+    --[
+    Eq( z, true ), Eq( hk, h(pkDoc) ), Eq( z.1, true ),
+    VAccept( $V, did, pkDoc, $I, $C, sid, $S, $D, ch ),
+    VIssue( $V, did, $D, $S, sid, h(pkDoc) )
+    ]->
+     [
+     Out( <<'tok', did, $D, $S, sid, h(pkDoc)>, 
+           sign(<'tok', did, $D, $S, sid, h(pkDoc)>, skV)>
+     )
+     ]
+    variants (modulo AC)
+    1. $C    = $C.34
+       $I    = $I.36
+       hk    = hk.41
+       pi    = pi.43
+       pkDoc = pkDoc.44
+       pkI   = pkI.45
+       sg    = sg.46
+       z     = pverify(pi.43, pkI.45, <'cred', hk.41, $C.34, $I.36>, 'none')
+       z.1   = verify(sg.46, h(<'none', pi.43, 'cred', hk.41, $C.34, $I.36>),
+                      pkDoc.44)
+    
+    2. $C    = $C.71
+       $I    = $I.73
+       hk    = hk.78
+       pi    = proofGen(bbsSign(x.140, <'cred', hk.78, $C.71, $I.73>),
+                        <'cred', hk.78, $C.71, $I.73>, 'none')
+       pkDoc = pkDoc.81
+       pkI   = pk(x.140)
+       sg    = sg.83
+       z     = true
+       z.1   = verify(sg.83,
+                      h(<'none', 
+                         proofGen(bbsSign(x.140, <'cred', hk.78, $C.71, $I.73>),
+                                  <'cred', hk.78, $C.71, $I.73>, 'none'), 
+                         'cred', hk.78, $C.71, $I.73>),
+                      pkDoc.81)
+    
+    3. $C    = $C.72
+       $I    = $I.74
+       hk    = hk.79
+       pi    = pi.81
+       pkDoc = pk(x.142)
+       pkI   = pkI.83
+       sg    = sign(h(<'none', pi.81, 'cred', hk.79, $C.72, $I.74>), x.142)
+       z     = pverify(pi.81, pkI.83, <'cred', hk.79, $C.72, $I.74>, 'none')
+       z.1   = true
+    
+    4. $C    = $C.72
+       $I    = $I.74
+       hk    = hk.79
+       pi    = proofGen(bbsSign(x.141, <'cred', hk.79, $C.72, $I.74>),
+                        <'cred', hk.79, $C.72, $I.74>, 'none')
+       pkDoc = pk(x.142)
+       pkI   = pk(x.141)
+       sg    = sign(h(<'none', 
+                       proofGen(bbsSign(x.141, <'cred', hk.79, $C.72, $I.74>),
+                                <'cred', hk.79, $C.72, $I.74>, 'none'), 
+                       'cred', hk.79, $C.72, $I.74>),
+                    x.142)
+       z     = true
+       z.1   = true
+  */
+
+rule (modulo E) R_Verify:
+   [ !VPub( $V, pkV ), In( <<'tok', did, $D, $S, sid, cnf>, sig> ) ]
+  --[
+  Eq( verify(sig, <'tok', did, $D, $S, sid, cnf>, pkV), true ),
+  RAccept( $V, did, $D, $S, sid, cnf )
+  ]->
+   [ ]
+
+  /*
+  rule (modulo AC) R_Verify:
+     [ !VPub( $V, pkV ), In( <<'tok', did, $D, $S, sid, cnf>, sig> ) ]
+    --[ Eq( z, true ), RAccept( $V, did, $D, $S, sid, cnf ) ]->
+     [ ]
+    variants (modulo AC)
+    1. $D    = $D.12
+       $S    = $S.13
+       cnf   = cnf.15
+       did   = did.16
+       pkV   = pkV.17
+       sid   = sid.18
+       sig   = sig.19
+       z     = verify(sig.19, <'tok', did.16, $D.12, $S.13, sid.18, cnf.15>,
+                      pkV.17)
+    
+    2. $D    = $D.18
+       $S    = $S.19
+       cnf   = cnf.21
+       did   = did.22
+       pkV   = pk(x.33)
+       sid   = sid.24
+       sig   = sign(<'tok', did.22, $D.18, $S.19, sid.24, cnf.21>, x.33)
+       z     = true
+  */
+
+lemma executable_accept:
+  exists-trace
+  "∃ V did pk I C sid S D ch #i #j.
+    (VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i) ∧
+    (HonestHolder( did, pk ) @ #j)"
+/*
+guarded formula characterizing all satisfying traces:
+"∃ V did pk I C sid S D ch #i #j.
+  (VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i) ∧
+  (HonestHolder( did, pk ) @ #j)"
+*/
+simplify
+solve( St_V( $V, $H, $S, $D, n, sid, ch ) ▶₀ #i )
+  case V_Challenge_case_1
+  solve( !VKey( $V, skV ) ▶₁ #i )
+    case Setup_Verifier
+    solve( !Registry( $H, pk(~skH) ) ▶₂ #i )
+      case Enrol_Holder
+      solve( !Trust( $D, $I, pk(x) ) ▶₃ #i )
+        case Admin_Trusts_Issuer
+        solve( !KU( sign(h(<'none', 
+                            proofGen(bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>),
+                                     <'cred', h(pk(~skH)), $C, $I>, 'none'), 
+                            'cred', h(pk(~skH)), $C, $I>),
+                         ~skH)
+               ) @ #vk.16 )
+          case H_Present
+          solve( !KU( h(pk(~skH)) ) @ #vk.11 )
+            case H_Present
+            solve( !KU( proofGen(bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>),
+                                 <'cred', h(pk(~skH)), $C, $I>, 'none')
+                   ) @ #vk.16 )
+              case H_Present
+              SOLVED // trace found
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma executable_relying_party:
+  exists-trace
+  "∃ V did D S sid cnf #i. RAccept( V, did, D, S, sid, cnf ) @ #i"
+/*
+guarded formula characterizing all satisfying traces:
+"∃ V did D S sid cnf #i. (RAccept( V, did, D, S, sid, cnf ) @ #i)"
+*/
+simplify
+solve( !VPub( $V, pk(x) ) ▶₀ #i )
+  case Setup_Verifier
+  solve( !KU( sign(<'tok', did, $D, $S, sid, cnf>, ~skV) ) @ #vk.12 )
+    case V_Verify_case_1
+    solve( !KU( sign(h(<'none', 
+                        proofGen(bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>),
+                                 <'cred', h(pk(~skH)), $C, $I>, 'none'), 
+                        'cred', h(pk(~skH)), $C, $I>),
+                     ~skH)
+           ) @ #vk.28 )
+      case H_Present
+      solve( !KU( ~sid ) @ #vk.17 )
+        case V_Challenge
+        solve( !KU( h(pk(~skH)) ) @ #vk.20 )
+          case H_Present
+          solve( !KU( proofGen(bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>),
+                               <'cred', h(pk(~skH)), $C, $I>, 'none')
+                 ) @ #vk.28 )
+            case H_Present
+            SOLVED // trace found
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma P1_agreement_with_honest_holder:
+  all-traces
+  "∀ V did pk I C sid S D ch #i #k.
+    ((VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i) ∧
+     (HonestHolder( did, pk ) @ #k)) ⇒
+    (∃ #j. (HPresent( did, pk, V, sid, S, D, ch, I, C ) @ #j) ∧ (#j < #i))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ V did pk I C sid S D ch #i #k.
+  (VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i) ∧
+  (HonestHolder( did, pk ) @ #k)
+ ∧
+  ∀ #j. (HPresent( did, pk, V, sid, S, D, ch, I, C ) @ #j) ⇒ ¬(#j < #i)"
+*/
+simplify
+solve( St_V( $V, $H, $S, $D, n, sid, ch ) ▶₀ #i )
+  case V_Challenge_case_1
+  solve( !VKey( $V, skV ) ▶₁ #i )
+    case Setup_Verifier
+    solve( !Registry( $H, pk(~skH) ) ▶₂ #i )
+      case Enrol_Holder
+      solve( !Trust( $D, $I, pk(x) ) ▶₃ #i )
+        case Admin_Trusts_Issuer
+        solve( !KU( sign(h(<'none', 
+                            proofGen(bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>),
+                                     <'cred', h(pk(~skH)), $C, $I>, 'none'), 
+                            'cred', h(pk(~skH)), $C, $I>),
+                         ~skH)
+               ) @ #vk.16 )
+          case H_Present
+          solve( !KU( h(pk(~skH)) ) @ #vk.11 )
+            case H_Present
+            solve( !KU( proofGen(bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>),
+                                 <'cred', h(pk(~skH)), $C, $I>, 'none')
+                   ) @ #vk.16 )
+              case H_Present
+              SOLVED // trace found
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma P2_injective_agreement:
+  all-traces
+  "∀ V did pk I C sid S D ch #i #k.
+    ((VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i) ∧
+     (HonestHolder( did, pk ) @ #k)) ⇒
+    (∃ #j.
+      ((HPresent( did, pk, V, sid, S, D, ch, I, C ) @ #j) ∧ (#j < #i)) ∧
+      (¬(∃ #i2.
+          (VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i2) ∧ (¬(#i2 = #i)))))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ V did pk I C sid S D ch #i #k.
+  (VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i) ∧
+  (HonestHolder( did, pk ) @ #k)
+ ∧
+  ∀ #j.
+   (HPresent( did, pk, V, sid, S, D, ch, I, C ) @ #j)
+  ⇒
+   ((¬(#j < #i)) ∨
+    (∃ #i2.
+      (VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i2) ∧ ¬(#i2 = #i)))"
+*/
+simplify
+solve( St_V( $V, $H, $S, $D, n, sid, ch ) ▶₀ #i )
+  case V_Challenge_case_1
+  solve( !VKey( $V, skV ) ▶₁ #i )
+    case Setup_Verifier
+    solve( !Registry( $H, pk(~skH) ) ▶₂ #i )
+      case Enrol_Holder
+      solve( !Trust( $D, $I, pk(x) ) ▶₃ #i )
+        case Admin_Trusts_Issuer
+        solve( !KU( sign(h(<'none', 
+                            proofGen(bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>),
+                                     <'cred', h(pk(~skH)), $C, $I>, 'none'), 
+                            'cred', h(pk(~skH)), $C, $I>),
+                         ~skH)
+               ) @ #vk.16 )
+          case H_Present
+          solve( !KU( h(pk(~skH)) ) @ #vk.11 )
+            case H_Present
+            solve( !KU( proofGen(bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>),
+                                 <'cred', h(pk(~skH)), $C, $I>, 'none')
+                   ) @ #vk.16 )
+              case H_Present
+              SOLVED // trace found
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma P3_credential_issued_to_presenter:
+  all-traces
+  "∀ V did pk I C sid S D ch #i.
+    (VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i) ⇒
+    (∃ #j. (Issued( I, h(pk), C ) @ #j) ∧ (#j < #i))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ V did pk I C sid S D ch #i.
+  (VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i)
+ ∧
+  ∀ #j. (Issued( I, h(pk), C ) @ #j) ⇒ ¬(#j < #i)"
+*/
+simplify
+solve( St_V( $V, did, $S, $D, n, sid, ch ) ▶₀ #i )
+  case V_Challenge_case_1
+  solve( !VKey( $V, skV ) ▶₁ #i )
+    case Setup_Verifier
+    solve( !Registry( did, pk(x) ) ▶₂ #i )
+      case Enrol_Holder
+      solve( !Trust( $D, $I, pk(x) ) ▶₃ #i )
+        case Admin_Trusts_Issuer
+        solve( !KU( sign(h(<'none', 
+                            proofGen(bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>),
+                                     <'cred', h(pk(~skH)), $C, $I>, 'none'), 
+                            'cred', h(pk(~skH)), $C, $I>),
+                         ~skH)
+               ) @ #vk.16 )
+          case H_Present
+          by contradiction /* from formulas */
+        next
+          case c_sign
+          by solve( !KU( ~skH ) @ #vk.22 )
+        qed
+      qed
+    next
+      case Register_Adversary_DID
+      solve( !Trust( $D.1, $I, pk(x.1) ) ▶₃ #i )
+        case Admin_Trusts_Issuer
+        solve( !KU( sign(h(<'none', 
+                            proofGen(bbsSign(~skI, <'cred', h(pk(x)), $C, $I>),
+                                     <'cred', h(pk(x)), $C, $I>, 'none'), 
+                            'cred', h(pk(x)), $C, $I>),
+                         x)
+               ) @ #vk.17 )
+          case H_Present
+          by contradiction /* from formulas */
+        next
+          case c_sign
+          solve( !KU( proofGen(bbsSign(~skI, <'cred', h(pk(x)), $C, $I>),
+                               <'cred', h(pk(x)), $C, $I>, 'none')
+                 ) @ #vk.17 )
+            case H_Present
+            by contradiction /* from formulas */
+          next
+            case c_proofGen
+            solve( !KU( h(<'none', 
+                           proofGen(bbsSign(~skI, <'cred', h(pk(x)), $C, $I>),
+                                    <'cred', h(pk(x)), $C, $I>, 'none'), 
+                           'cred', h(pk(x)), $C, $I>)
+                   ) @ #vk.23 )
+              case c_h
+              solve( !KU( bbsSign(~skI, <'cred', h(pk(x)), $C, $I>) ) @ #vk.26 )
+                case Issue_After_Possession_Proof
+                by contradiction /* from formulas */
+              next
+                case Issue_To_Honest_Holder
+                by contradiction /* from formulas */
+              next
+                case c_bbsSign
+                by solve( !KU( ~skI ) @ #vk.29 )
+              qed
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+next
+  case V_Challenge_case_2
+  solve( !VKey( $V, skV ) ▶₁ #i )
+    case Setup_Verifier
+    solve( !Registry( did, pk(x) ) ▶₂ #i )
+      case Enrol_Holder
+      solve( !Trust( $D, $I, pk(x) ) ▶₃ #i )
+        case Admin_Trusts_Issuer
+        solve( !KU( sign(h(<'none', 
+                            proofGen(bbsSign(~skI, <'cred', h(pk(~skH)), $C, $I>),
+                                     <'cred', h(pk(~skH)), $C, $I>, 'none'), 
+                            'cred', h(pk(~skH)), $C, $I>),
+                         ~skH)
+               ) @ #vk.16 )
+          case H_Present
+          by contradiction /* from formulas */
+        next
+          case c_sign
+          by solve( !KU( ~skH ) @ #vk.22 )
+        qed
+      qed
+    next
+      case Register_Adversary_DID
+      solve( !Trust( $D.1, $I, pk(x.1) ) ▶₃ #i )
+        case Admin_Trusts_Issuer
+        solve( !KU( sign(h(<'none', 
+                            proofGen(bbsSign(~skI, <'cred', h(pk(x)), $C, $I>),
+                                     <'cred', h(pk(x)), $C, $I>, 'none'), 
+                            'cred', h(pk(x)), $C, $I>),
+                         x)
+               ) @ #vk.17 )
+          case H_Present
+          by contradiction /* from formulas */
+        next
+          case c_sign
+          solve( !KU( proofGen(bbsSign(~skI, <'cred', h(pk(x)), $C, $I>),
+                               <'cred', h(pk(x)), $C, $I>, 'none')
+                 ) @ #vk.17 )
+            case H_Present
+            by contradiction /* from formulas */
+          next
+            case c_proofGen
+            solve( !KU( h(<'none', 
+                           proofGen(bbsSign(~skI, <'cred', h(pk(x)), $C, $I>),
+                                    <'cred', h(pk(x)), $C, $I>, 'none'), 
+                           'cred', h(pk(x)), $C, $I>)
+                   ) @ #vk.23 )
+              case c_h
+              solve( !KU( bbsSign(~skI, <'cred', h(pk(x)), $C, $I>) ) @ #vk.26 )
+                case Issue_After_Possession_Proof
+                by contradiction /* from formulas */
+              next
+                case Issue_To_Honest_Holder
+                by contradiction /* from formulas */
+              next
+                case c_bbsSign
+                by solve( !KU( ~skI ) @ #vk.29 )
+              qed
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma P4_issuer_trusted_by_administrator:
+  all-traces
+  "∀ V did pk I C sid S D ch #i.
+    (VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i) ⇒
+    (∃ #j. (Trusted( D, I ) @ #j) ∧ (#j < #i))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ V did pk I C sid S D ch #i.
+  (VAccept( V, did, pk, I, C, sid, S, D, ch ) @ #i)
+ ∧
+  ∀ #j. (Trusted( D, I ) @ #j) ⇒ ¬(#j < #i)"
+*/
+simplify
+solve( St_V( $V, did, $S, $D, n, sid, ch ) ▶₀ #i )
+  case V_Challenge_case_1
+  solve( !VKey( $V, skV ) ▶₁ #i )
+    case Setup_Verifier
+    solve( !Registry( did, pk(x) ) ▶₂ #i )
+      case Enrol_Holder
+      solve( !Trust( $D, $I, pk(x) ) ▶₃ #i )
+        case Admin_Trusts_Issuer
+        by contradiction /* from formulas */
+      qed
+    next
+      case Register_Adversary_DID
+      solve( !Trust( $D.1, $I, pk(x.1) ) ▶₃ #i )
+        case Admin_Trusts_Issuer
+        by contradiction /* from formulas */
+      qed
+    qed
+  qed
+next
+  case V_Challenge_case_2
+  solve( !VKey( $V, skV ) ▶₁ #i )
+    case Setup_Verifier
+    solve( !Registry( did, pk(x) ) ▶₂ #i )
+      case Enrol_Holder
+      solve( !Trust( $D, $I, pk(x) ) ▶₃ #i )
+        case Admin_Trusts_Issuer
+        by contradiction /* from formulas */
+      qed
+    next
+      case Register_Adversary_DID
+      solve( !Trust( $D.1, $I, pk(x.1) ) ▶₃ #i )
+        case Admin_Trusts_Issuer
+        by contradiction /* from formulas */
+      qed
+    qed
+  qed
+qed
+
+lemma P5_token_origin:
+  all-traces
+  "∀ V did D S sid cnf #i.
+    (RAccept( V, did, D, S, sid, cnf ) @ #i) ⇒
+    (∃ #j. (VIssue( V, did, D, S, sid, cnf ) @ #j) ∧ (#j < #i))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ V did D S sid cnf #i.
+  (RAccept( V, did, D, S, sid, cnf ) @ #i)
+ ∧
+  ∀ #j. (VIssue( V, did, D, S, sid, cnf ) @ #j) ⇒ ¬(#j < #i)"
+*/
+simplify
+solve( !VPub( $V, pk(x) ) ▶₀ #i )
+  case Setup_Verifier
+  solve( !KU( sign(<'tok', did, $D, $S, sid, cnf>, ~skV) ) @ #vk.12 )
+    case V_Verify_case_1
+    by contradiction /* from formulas */
+  next
+    case V_Verify_case_2
+    by contradiction /* from formulas */
+  next
+    case V_Verify_case_3
+    by contradiction /* from formulas */
+  next
+    case V_Verify_case_4
+    by contradiction /* from formulas */
+  next
+    case c_sign
+    by solve( !KU( ~skV ) @ #vk.13 )
+  qed
+qed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* All wellformedness checks were successful. */
+
+/*
+Generated from:
+Tamarin version 1.10.0
+Maude version 3.3.1
+Git revision: cb62c305f8c8b8c1e664152aa33c95b7b8d5ef32, branch: master
+Compiled at: 2024-10-30 11:11:02.432289291 UTC
+*/
+
+end
+
+==============================================================================
+summary of summaries:
+
+analyzed: ctl_no_challenge_binding.spthy
+
+  processing time: 6.12s
+  
+  executable_accept (exists-trace): verified (9 steps)
+  executable_relying_party (exists-trace): verified (8 steps)
+  P1_agreement_with_honest_holder (all-traces): falsified - found trace (9 steps)
+  P2_injective_agreement (all-traces): falsified - found trace (9 steps)
+  P3_credential_issued_to_presenter (all-traces): verified (34 steps)
+  P4_issuer_trusted_by_administrator (all-traces): verified (14 steps)
+  P5_token_origin (all-traces): verified (8 steps)
+
+==============================================================================

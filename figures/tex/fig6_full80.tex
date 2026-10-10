@@ -1,0 +1,99 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{amsmath,amssymb}\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usetikzlibrary{arrows.meta,positioning,shadows,fit,calc,backgrounds,patterns}
+\definecolor{lav}{HTML}{E6E6FF}\definecolor{pinkb}{HTML}{FFDDDD}\definecolor{greenb}{HTML}{DDFFDD}\definecolor{yelb}{HTML}{FFFBCF}\definecolor{peach}{HTML}{FFEBD6}\definecolor{mauve}{HTML}{F0E6F0}
+\definecolor{reqblue}{HTML}{0000BB}\definecolor{resgreen}{HTML}{008800}\definecolor{dred}{HTML}{CC0000}\definecolor{domblue}{HTML}{000099}\definecolor{crimson}{HTML}{990033}
+\definecolor{tbBlue}{HTML}{1F77B4}\definecolor{tbOrange}{HTML}{FF7F0E}\definecolor{tbGreen}{HTML}{2CA02C}\definecolor{tbRed}{HTML}{D62728}\definecolor{tbPurple}{HTML}{9467BD}\definecolor{tbBrown}{HTML}{8C564B}
+\definecolor{barGreen}{HTML}{1B8754}\definecolor{darkGreen}{HTML}{2E7D32}\definecolor{lightBlue}{HTML}{A0C4FF}\definecolor{kRed}{HTML}{DC3545}
+\definecolor{accB}{HTML}{3366FF}\definecolor{f1O}{HTML}{FF7F50}\definecolor{aucG}{HTML}{44CC11}
+\tikzset{node/.style={draw,rounded corners=2.5pt,thick,align=center},
+ req/.style={-{Stealth[length=2.4mm]},thick,reqblue},res/.style={-{Stealth[length=2.4mm]},thick,dashed,resgreen}}
+\pgfplotsset{every axis/.append style={tick label style={font=\footnotesize},label style={font=\small},title style={font=\small},legend style={font=\scriptsize,fill=white,fill opacity=.9,text opacity=1,draw=black!25,rounded corners=1pt},
+ grid style={dotted,black!35}}}
+\begin{document}
+\begin{tikzpicture}\begin{axis}[width=14cm,height=14cm,clip=false,enlargelimits=false,axis on top,y dir=reverse,colorbar,colormap={cw}{rgb255=(59,76,192) rgb255=(221,221,221) rgb255=(180,4,38)},point meta min=0,point meta max=1,
+ colorbar style={ylabel={$|$Pearson correlation$|$},width=.35cm,ytick={0,.2,.4,.6,.8,1}},xtick=\empty,ytick=\empty,tick style={draw=none},title={\begin{tabular}{c}Feature redundancy structure of RT-IoT2022\\(absolute Pearson correlation, hierarchically clustered)\end{tabular}},title style={font=\normalsize,yshift=2pt}]
+\addplot[matrix plot*,point meta=explicit,mesh/rows=80,mesh/cols=80] table[x=x,y=y,meta=c,col sep=comma]{fig6_data.csv};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,0) {bwd\_iat.min}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:0,79.8) {bwd\_iat.min};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,1) {flow\_iat.min}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:1,79.8) {flow\_iat.min};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,2) {fwd\_bulk\_rate}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:2,79.8) {fwd\_bulk\_rate};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,3) {flow\_CWR\_flag\_count}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:3,79.8) {flow\_CWR\_flag\_count};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,4) {flow\_ECE\_flag\_count}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:4,79.8) {flow\_ECE\_flag\_count};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,5) {bwd\_iat.tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:5,79.8) {bwd\_iat.tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,6) {idle.tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:6,79.8) {idle.tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,7) {fwd\_iat.tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:7,79.8) {fwd\_iat.tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,8) {flow\_duration}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:8,79.8) {flow\_duration};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,9) {flow\_iat.tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:9,79.8) {flow\_iat.tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,10) {active.tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:10,79.8) {active.tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,11) {fwd\_pkts\_payload.tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:11,79.8) {fwd\_pkts\_payload.tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,12) {fwd\_pkts\_tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:12,79.8) {fwd\_pkts\_tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,13) {fwd\_data\_pkts\_tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:13,79.8) {fwd\_data\_pkts\_tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,14) {fwd\_subflow\_bytes}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:14,79.8) {fwd\_subflow\_bytes};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,15) {fwd\_bulk\_bytes}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:15,79.8) {fwd\_bulk\_bytes};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,16) {fwd\_bulk\_packets}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:16,79.8) {fwd\_bulk\_packets};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,17) {bwd\_bulk\_bytes}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:17,79.8) {bwd\_bulk\_bytes};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,18) {bwd\_bulk\_packets}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:18,79.8) {bwd\_bulk\_packets};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,19) {fwd\_subflow\_pkts}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:19,79.8) {fwd\_subflow\_pkts};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,20) {bwd\_subflow\_pkts}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:20,79.8) {bwd\_subflow\_pkts};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,21) {bwd\_subflow\_bytes}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:21,79.8) {bwd\_subflow\_bytes};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,22) {bwd\_pkts\_tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:22,79.8) {bwd\_pkts\_tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,23) {bwd\_data\_pkts\_tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:23,79.8) {bwd\_data\_pkts\_tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,24) {bwd\_pkts\_payload.tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:24,79.8) {bwd\_pkts\_payload.tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,25) {flow\_pkts\_payload.tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:25,79.8) {flow\_pkts\_payload.tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,26) {fwd\_PSH\_flag\_count}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:26,79.8) {fwd\_PSH\_flag\_count};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,27) {fwd\_header\_size\_tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:27,79.8) {fwd\_header\_size\_tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,28) {bwd\_PSH\_flag\_count}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:28,79.8) {bwd\_PSH\_flag\_count};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,29) {bwd\_header\_size\_tot}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:29,79.8) {bwd\_header\_size\_tot};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,30) {flow\_ACK\_flag\_count}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:30,79.8) {flow\_ACK\_flag\_count};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,31) {bwd\_bulk\_rate}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:31,79.8) {bwd\_bulk\_rate};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,32) {flow\_FIN\_flag\_count}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:32,79.8) {flow\_FIN\_flag\_count};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,33) {flow\_pkts\_payload.avg}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:33,79.8) {flow\_pkts\_payload.avg};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,34) {fwd\_pkts\_payload.max}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:34,79.8) {fwd\_pkts\_payload.max};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,35) {fwd\_pkts\_payload.std}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:35,79.8) {fwd\_pkts\_payload.std};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,36) {flow\_pkts\_payload.std}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:36,79.8) {flow\_pkts\_payload.std};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,37) {bwd\_pkts\_payload.avg}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:37,79.8) {bwd\_pkts\_payload.avg};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,38) {flow\_pkts\_payload.max}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:38,79.8) {flow\_pkts\_payload.max};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,39) {bwd\_pkts\_payload.max}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:39,79.8) {bwd\_pkts\_payload.max};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,40) {bwd\_pkts\_payload.std}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:40,79.8) {bwd\_pkts\_payload.std};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,41) {active.std}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:41,79.8) {active.std};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,42) {active.max}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:42,79.8) {active.max};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,43) {active.min}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:43,79.8) {active.min};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,44) {active.avg}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:44,79.8) {active.avg};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,45) {bwd\_pkts\_payload.min}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:45,79.8) {bwd\_pkts\_payload.min};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,46) {flow\_RST\_flag\_count}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:46,79.8) {flow\_RST\_flag\_count};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,47) {bwd\_header\_size\_min}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:47,79.8) {bwd\_header\_size\_min};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,48) {bwd\_header\_size\_max}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:48,79.8) {bwd\_header\_size\_max};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,49) {down\_up\_ratio}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:49,79.8) {down\_up\_ratio};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,50) {flow\_pkts\_payload.min}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:50,79.8) {flow\_pkts\_payload.min};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,51) {payload\_bytes\_per\_second}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:51,79.8) {payload\_bytes\_per\_second};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,52) {fwd\_pkts\_per\_sec}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:52,79.8) {fwd\_pkts\_per\_sec};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,53) {bwd\_pkts\_per\_sec}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:53,79.8) {bwd\_pkts\_per\_sec};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,54) {flow\_pkts\_per\_sec}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:54,79.8) {flow\_pkts\_per\_sec};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,55) {fwd\_pkts\_payload.min}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:55,79.8) {fwd\_pkts\_payload.min};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,56) {fwd\_pkts\_payload.avg}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:56,79.8) {fwd\_pkts\_payload.avg};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,57) {fwd\_iat.min}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:57,79.8) {fwd\_iat.min};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,58) {idle.std}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:58,79.8) {idle.std};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,59) {flow\_SYN\_flag\_count}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:59,79.8) {flow\_SYN\_flag\_count};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,60) {fwd\_header\_size\_min}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:60,79.8) {fwd\_header\_size\_min};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,61) {fwd\_header\_size\_max}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:61,79.8) {fwd\_header\_size\_max};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,62) {fwd\_init\_window\_size}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:62,79.8) {fwd\_init\_window\_size};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,63) {bwd\_init\_window\_size}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:63,79.8) {bwd\_init\_window\_size};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,64) {bwd\_iat.avg}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:64,79.8) {bwd\_iat.avg};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,65) {bwd\_iat.max}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:65,79.8) {bwd\_iat.max};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,66) {bwd\_iat.std}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:66,79.8) {bwd\_iat.std};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,67) {fwd\_iat.std}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:67,79.8) {fwd\_iat.std};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,68) {flow\_iat.std}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:68,79.8) {flow\_iat.std};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,69) {idle.min}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:69,79.8) {idle.min};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,70) {idle.avg}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:70,79.8) {idle.avg};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,71) {fwd\_iat.max}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:71,79.8) {fwd\_iat.max};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,72) {flow\_iat.max}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:72,79.8) {flow\_iat.max};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,73) {idle.max}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:73,79.8) {idle.max};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,74) {fwd\_iat.avg}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:74,79.8) {fwd\_iat.avg};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,75) {flow\_iat.avg}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:75,79.8) {flow\_iat.avg};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,76) {fwd\_last\_window\_size}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:76,79.8) {fwd\_last\_window\_size};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,77) {id.orig\_p}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:77,79.8) {id.orig\_p};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,78) {id.resp\_p}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:78,79.8) {id.resp\_p};
+\node[anchor=east,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:-0.7,79) {fwd\_URG\_flag\_count}; \node[anchor=east,rotate=90,font=\fontsize{3.4}{3.4}\selectfont] at (axis cs:79,79.8) {fwd\_URG\_flag\_count};
+\end{axis}\end{tikzpicture}
+\end{document}

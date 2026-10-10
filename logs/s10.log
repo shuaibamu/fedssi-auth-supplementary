@@ -1,0 +1,22 @@
+[     0s] {'vcpus': 1, 'mem_total_mb': 3999, 'kernel': '6.18 (virtual machine)', 'java': 'openjdk version "21.0.10" 2026-01-20', 'besu': '24.12.2', 'jvm_heap_per_node': '256m (-Xmx200m used for n>=7)', 'consensus': 'QBFT, block period 2 s', 'gas_price': 0, 'block_gas_limit': '0x1fffffffffffff'}
+[    57s] n=4 up (block 3, peers 3, mem used 1725 MB)
+[    85s] n=4 rep=1 load=10: 10/10 confirmed, 2.06 tx/s, median 4.8s, p95 4.8s, CPU busy 0.84
+[   103s] n=4 rep=1 load=50: 50/50 confirmed, 4.27 tx/s, median 10.8s, p95 11.5s, CPU busy 0.93
+[   124s] n=4 rep=1 load=100: 100/100 confirmed, 7.15 tx/s, median 12.4s, p95 13.3s, CPU busy 0.99
+[   137s] n=4 rep=2 load=10: 10/10 confirmed, 1.60 tx/s, median 6.0s, p95 6.2s, CPU busy 0.63
+[   153s] n=4 rep=2 load=50: 50/50 confirmed, 4.86 tx/s, median 3.5s, p95 9.2s, CPU busy 0.90
+[   174s] n=4 rep=2 load=100: 100/100 confirmed, 7.78 tx/s, median 11.1s, p95 12.6s, CPU busy 0.97
+[   186s] n=4 rep=3 load=10: 10/10 confirmed, 1.50 tx/s, median 6.5s, p95 6.6s, CPU busy 0.52
+[   202s] n=4 rep=3 load=50: 50/50 confirmed, 5.57 tx/s, median 3.7s, p95 3.8s, CPU busy 0.64
+[   221s] n=4 rep=3 load=100: 100/100 confirmed, 8.32 tx/s, median 9.8s, p95 11.0s, CPU busy 0.91
+[   334s] n=7 up (block 2, peers 6, mem used 2453 MB)
+[   384s] n=7 rep=1 load=10: 10/10 confirmed, 0.84 tx/s, median 11.3s, p95 11.9s, CPU busy 0.88
+[   419s] n=7 rep=1 load=50: 50/50 confirmed, 1.81 tx/s, median 22.5s, p95 27.4s, CPU busy 0.95
+[   507s] n=7 rep=1 load=100: 100/100 confirmed, 1.25 tx/s, median 72.8s, p95 79.7s, CPU busy 0.96
+[   517s] n=7 rep=2 load=10: 10/10 confirmed, 2.18 tx/s, median 4.1s, p95 4.6s, CPU busy 0.74
+[   536s] n=7 rep=2 load=50: 50/50 confirmed, 4.33 tx/s, median 10.4s, p95 11.1s, CPU busy 0.96
+[   572s] n=7 rep=2 load=100: 100/100 confirmed, 3.41 tx/s, median 25.2s, p95 28.3s, CPU busy 0.94
+[   583s] n=7 rep=3 load=10: 10/10 confirmed, 2.47 tx/s, median 3.7s, p95 4.0s, CPU busy 0.72
+[   602s] n=7 rep=3 load=50: 50/50 confirmed, 3.82 tx/s, median 11.0s, p95 12.9s, CPU busy 0.95
+[   681s] n=7 rep=3 load=100: 100/100 confirmed, 1.40 tx/s, median 65.2s, p95 70.8s, CPU busy 0.97
+[   695s] DONE

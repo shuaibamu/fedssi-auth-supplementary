@@ -1,0 +1,29 @@
+ALGORITHM 1: FedSSI-Auth(H, V, R, B)
+INPUT:  H holds did_H, (sk_H, pk_H) and VC_H = BBS+ signature over (schema, deviceClass, maxBitrate,
+        validUntil, listId, revIdx, holderKey = h(pk_H), ...). R is in the verifying domain D_R; the
+        issuer of VC_H is in domain D_I (possibly D_I ≠ D_R).
+OUTPUT: auth_token bound to did_H, audience D_R, scope, expiry and session, or REJECT
+
+ 1: H → V : did_H ‖ scope ‖ D_R                                        // session request
+ 2: V     : n ←$ {0,1}^256; fresh sid, ts; ch = transport-channel identifier;
+            ph ← h(n ‖ V_id ‖ sid ‖ ts ‖ D_R ‖ scope ‖ ch)
+ 3: V → H : (n, V_id, sid, ts)                                         // single-use challenge
+ 4: H     : (π, claims) ← BBS+.ProofGen(VC_H, disclose D, ph);  σ_H ← Sign_skH( h(ph ‖ π ‖ claims) )
+ 5: H → V : VP_H = (claims, π, issuer_did), σ_H
+ 6: V → B : resolveDIDs(did_H, issuer_did)
+ 7: B → V : (hash_H, active_H, hash_I, active_I)                       // one batched read
+ 8: V     : fetch DID documents; require h(doc_H) = hash_H, h(doc_I) = hash_I, active_H, active_I;
+            extract pk_H, pk_I
+ 9: V → B : isTrusted(D_R, D_I, issuer_did, schema_hash)
+10: B → V : trusted
+11: V → B : isRevoked(listId, revIdx)
+12: B → V : revoked
+13: V     : require trusted, not revoked, validUntil > now, claims satisfy policy,
+            holderKey = h(pk_H)                           // credential-holder binding
+14: V     : require BBS+.ProofVerify(π, pk_I, claims, ph) // issuer proof bound to the challenge
+15: V     : require Verify_pkH( σ_H, h(ph ‖ π ‖ claims) ) // possession of sk_H over the same transcript
+16: V     : f ← features of H's recently completed flows measured by V (window W);
+            require M_θ(f) ≤ τ   (provisional token if no flow has completed yet)
+17: V → R : auth_token = Sign_V( did_H ‖ aud ‖ scope ‖ exp ‖ sid ‖ cnf = h(pk_H) )
+18: R     : verify signature, aud, scope, exp, cnf, and that sid is not revoked; accept session
+19: V     : every Δ seconds re-score newly completed flows of H; if M_θ > τ then revoke sid

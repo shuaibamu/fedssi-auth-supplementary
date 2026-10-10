@@ -1,0 +1,12 @@
+[      7s] LOFO DOS_SYN_Hping: recall 0.9905 (93759/94659), benign blocked 21/3127
+[     12s] LOFO ARP_poisioning: recall 0.2599 (2014/7750), benign blocked 1/3127
+[     19s] LOFO NMAP_UDP_SCAN: recall 0.3571 (925/2590), benign blocked 18/3127
+[     26s] LOFO NMAP_XMAS_TREE_SCAN: recall 1.0000 (2010/2010), benign blocked 21/3127
+[     34s] LOFO NMAP_OS_DETECTION: recall 1.0000 (2000/2000), benign blocked 24/3127
+[     41s] LOFO NMAP_TCP_scan: recall 1.0000 (1002/1002), benign blocked 23/3127
+[     49s] LOFO DDOS_Slowloris: recall 0.9888 (528/534), benign blocked 21/3127
+[     56s] LOFO Metasploit_Brute_Force_SSH: recall 0.9189 (34/37), benign blocked 20/3127
+[     63s] LOFO NMAP_FIN_SCAN: recall 1.0000 (28/28), benign blocked 21/3127
+[     72s] ordered-block: attack-only test, recall 0.8452, test benign=0
+[     79s] within-session ordered: macroF1 0.99715 recall 0.99928 fpr 0.00384
+[     79s] DONE

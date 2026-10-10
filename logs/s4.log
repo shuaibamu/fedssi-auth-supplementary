@@ -1,0 +1,12 @@
+[      7s] OOF fold 0
+[     13s] OOF fold 1
+[     19s] OOF fold 2
+[     24s] OOF fold 3
+[     30s] OOF fold 4
+[     30s] selected tau=0.62 on training OOF; macroF1=0.99654
+[     38s] seed 1: macroF1 0.99707 recall 0.99931 fpr 0.00448
+[     46s] seed 2: macroF1 0.99608 recall 0.99920 fpr 0.00704
+[     53s] seed 3: macroF1 0.99688 recall 0.99953 fpr 0.00704
+[     61s] seed 4: macroF1 0.99688 recall 0.99949 fpr 0.00672
+[     69s] seed 5: macroF1 0.99671 recall 0.99942 fpr 0.00672
+[     69s] DONE

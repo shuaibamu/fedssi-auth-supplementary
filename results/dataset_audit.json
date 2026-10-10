@@ -1,0 +1,27 @@
+{
+ "sha256": "4bddd1dab531554dd7cf68f5940046a209a92a8d18d6b66f742636aee2cb16a5",
+ "rows": 123117,
+ "cols": 85,
+ "constant": [
+  "bwd_URG_flag_count"
+ ],
+ "categorical": [
+  "proto",
+  "service"
+ ],
+ "n_numeric": 80,
+ "class_counts": {
+  "DOS_SYN_Hping": 94659,
+  "Thing_Speak": 8108,
+  "ARP_poisioning": 7750,
+  "MQTT_Publish": 4146,
+  "NMAP_UDP_SCAN": 2590,
+  "NMAP_XMAS_TREE_SCAN": 2010,
+  "NMAP_OS_DETECTION": 2000,
+  "NMAP_TCP_scan": 1002,
+  "DDOS_Slowloris": 534,
+  "Wipro_bulb": 253,
+  "Metasploit_Brute_Force_SSH": 37,
+  "NMAP_FIN_SCAN": 28
+ }
+}

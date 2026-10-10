@@ -1,0 +1,55 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{amsmath,amssymb}\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usetikzlibrary{arrows.meta,positioning,shadows,fit,calc,backgrounds,patterns}
+\definecolor{lav}{HTML}{E6E6FF}\definecolor{pinkb}{HTML}{FFDDDD}\definecolor{greenb}{HTML}{DDFFDD}\definecolor{yelb}{HTML}{FFFBCF}\definecolor{peach}{HTML}{FFEBD6}\definecolor{mauve}{HTML}{F0E6F0}
+\definecolor{reqblue}{HTML}{0000BB}\definecolor{resgreen}{HTML}{008800}\definecolor{dred}{HTML}{CC0000}\definecolor{domblue}{HTML}{000099}\definecolor{crimson}{HTML}{990033}
+\definecolor{tbBlue}{HTML}{1F77B4}\definecolor{tbOrange}{HTML}{FF7F0E}\definecolor{tbGreen}{HTML}{2CA02C}\definecolor{tbRed}{HTML}{D62728}\definecolor{tbPurple}{HTML}{9467BD}\definecolor{tbBrown}{HTML}{8C564B}
+\definecolor{barGreen}{HTML}{1B8754}\definecolor{darkGreen}{HTML}{2E7D32}\definecolor{lightBlue}{HTML}{A0C4FF}\definecolor{kRed}{HTML}{DC3545}
+\definecolor{accB}{HTML}{3366FF}\definecolor{f1O}{HTML}{FF7F50}\definecolor{aucG}{HTML}{44CC11}
+\tikzset{node/.style={draw,rounded corners=2.5pt,thick,align=center},
+ req/.style={-{Stealth[length=2.4mm]},thick,reqblue},res/.style={-{Stealth[length=2.4mm]},thick,dashed,resgreen}}
+\pgfplotsset{every axis/.append style={tick label style={font=\footnotesize},label style={font=\small},title style={font=\small},legend style={font=\footnotesize,fill=white,fill opacity=.9,text opacity=1,draw=black!25,rounded corners=1pt},
+ grid style={dotted,black!35}}}
+\begin{document}
+\begin{tikzpicture}[font=\small]
+\tikzset{pb/.style={node,minimum width=3.2cm,minimum height=1.3cm,font=\footnotesize,drop shadow={shadow xshift=1.3pt,shadow yshift=-1.3pt,opacity=.4}}}
+\node[anchor=west,font=\bfseries\normalsize] at (-1.6,1.2) {Phase 1: Data \& Preprocessing};
+\node[pb,fill=lav] (p00) at (0.0,0.0) {RT-IoT2022\\(UCI)};
+\node[pb,fill=lav] (p01) at (3.75,0.0) {Clean +\\One-hot Encode};
+\node[pb,fill=lav] (p02) at (7.5,0.0) {Stratified\\75/25 Split};
+\node[pb,fill=lav] (p03) at (11.25,0.0) {Binary Label\\Auth/Unauth};
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p00.east) -- (p01.west);
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p01.east) -- (p02.west);
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p02.east) -- (p03.west);
+\node[anchor=west,font=\bfseries\normalsize] at (-1.6,-2.1500000000000004) {Phase 2: Framework Design \& Smart-Contract Deployment};
+\node[pb,fill=mauve] (p10) at (0.0,-3.35) {Define\\Auth Protocol (19 steps)};
+\node[pb,fill=mauve] (p11) at (3.75,-3.35) {Solidity SCs:\\DID/Trust/Revoc};
+\node[pb,fill=mauve] (p12) at (7.5,-3.35) {Deploy on\\Besu QBFT};
+\node[pb,fill=mauve] (p13) at (11.25,-3.35) {Benchmark\\Gas/Latency/Throughput};
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p10.east) -- (p11.west);
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p11.east) -- (p12.west);
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p12.east) -- (p13.west);
+\node[anchor=west,font=\bfseries\normalsize] at (-1.6,-5.5) {Phase 3: ML Authentication Filter Training};
+\node[pb,fill=yelb] (p20) at (0.0,-6.7) {Feature Set\\(80 num + 2 cat)};
+\node[pb,fill=greenb] (p21) at (3.75,-6.7) {Train 6 Models\\LR/DT/kNN/SVM/GB/RF};
+\node[pb,fill=greenb] (p22) at (7.5,-6.7) {5-fold CV\\(training split only)};
+\node[pb,fill=greenb] (p23) at (11.25,-6.7) {Select $\tau$ on\\OOF scores};
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p20.east) -- (p21.west);
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p21.east) -- (p22.west);
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p22.east) -- (p23.west);
+\node[anchor=west,font=\bfseries\normalsize] at (-1.6,-8.850000000000001) {Phase 4: Evaluation \& Comparative Analysis};
+\fill[black!3,rounded corners=4pt,draw=black!20] (-1.85,-11.0) rectangle (13.0,-9.33);
+\node[pb,fill=peach] (p30) at (0.0,-10.05) {Test Metrics\\+ Paired Tests};
+\node[pb,fill=peach] (p31) at (3.75,-10.05) {Harder Settings\\(family/block/session)};
+\node[pb,fill=peach] (p32) at (7.5,-10.05) {Cross-dataset\\Transfer (CIC-IDS2017)};
+\node[pb,fill=peach] (p33) at (11.25,-10.05) {Protocol + Integrated\\Gateway Test};
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p30.east) -- (p31.west);
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p31.east) -- (p32.west);
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p32.east) -- (p33.west);
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p03.south) -- ++(0,-0.55) -| ($(p10.west)+(-0.4,0)$) -- (p10.west);
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p13.south) -- ++(0,-0.55) -| ($(p20.west)+(-0.4,0)$) -- (p20.west);
+\draw[-{Stealth[length=2.2mm]},thick,black!75] (p23.south) -- ++(0,-0.55) -| ($(p30.west)+(-0.4,0)$) -- (p30.west);
+\draw[-{Stealth[length=2.4mm]},thick,dashed,red!75] (p32.north) -- (p22.south); \node[red!75,font=\footnotesize\itshape,anchor=west] at ([xshift=0.12cm,yshift=0.42cm]p32.north) {transfer check on CIC-IDS2017};
+\end{tikzpicture}
+\end{document}

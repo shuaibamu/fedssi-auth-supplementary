@@ -1,0 +1,24 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{amsmath,amssymb}\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usetikzlibrary{arrows.meta,positioning,shadows,fit,calc,backgrounds,patterns}
+\definecolor{lav}{HTML}{E6E6FF}\definecolor{pinkb}{HTML}{FFDDDD}\definecolor{greenb}{HTML}{DDFFDD}\definecolor{yelb}{HTML}{FFFBCF}\definecolor{peach}{HTML}{FFEBD6}\definecolor{mauve}{HTML}{F0E6F0}
+\definecolor{reqblue}{HTML}{0000BB}\definecolor{resgreen}{HTML}{008800}\definecolor{dred}{HTML}{CC0000}\definecolor{domblue}{HTML}{000099}\definecolor{crimson}{HTML}{990033}
+\definecolor{tbBlue}{HTML}{1F77B4}\definecolor{tbOrange}{HTML}{FF7F0E}\definecolor{tbGreen}{HTML}{2CA02C}\definecolor{tbRed}{HTML}{D62728}\definecolor{tbPurple}{HTML}{9467BD}\definecolor{tbBrown}{HTML}{8C564B}
+\definecolor{barGreen}{HTML}{1B8754}\definecolor{darkGreen}{HTML}{2E7D32}\definecolor{lightBlue}{HTML}{A0C4FF}\definecolor{kRed}{HTML}{DC3545}
+\definecolor{accB}{HTML}{3366FF}\definecolor{f1O}{HTML}{FF7F50}\definecolor{aucG}{HTML}{44CC11}
+\tikzset{node/.style={draw,rounded corners=2.5pt,thick,align=center},
+ req/.style={-{Stealth[length=2.4mm]},thick,reqblue},res/.style={-{Stealth[length=2.4mm]},thick,dashed,resgreen}}
+\pgfplotsset{every axis/.append style={tick label style={font=\footnotesize},label style={font=\small},title style={font=\small},legend style={font=\footnotesize,fill=white,fill opacity=.9,text opacity=1,draw=black!25,rounded corners=1pt},
+ grid style={dotted,black!35}}}
+\begin{document}
+\begin{tikzpicture}\begin{axis}[width=14.5cm,height=7.4cm,xbar,xmode=log,log origin=infty,xmin=0.1,xmax=5302,ymin=-0.6,ymax=5.6,ytick={0,...,5},yticklabels={{Logistic Regression},{Gradient Boosting},{Decision Tree},{Random Forest (Ours)},{SVM (RBF)},{k-NN}},y tick label style={font=\small},
+ xlabel={Inference latency per flow (microseconds, log scale)},xmajorgrids,xminorgrids,grid style={dashed,black!15},minor grid style={dashed,black!10}]
+\addplot[xbar,bar shift=0pt,fill=lightBlue,draw=black!55,bar width=0.62cm,point meta=explicit symbolic,nodes near coords,nodes near coords style={font=\footnotesize,anchor=west}] coordinates {(1.712,0) [1.71\,$\mu$s]};
+\addplot[xbar,bar shift=0pt,fill=lightBlue,draw=black!55,bar width=0.62cm,point meta=explicit symbolic,nodes near coords,nodes near coords style={font=\footnotesize,anchor=west}] coordinates {(1.964,1) [1.96\,$\mu$s]};
+\addplot[xbar,bar shift=0pt,fill=lightBlue,draw=black!55,bar width=0.62cm,point meta=explicit symbolic,nodes near coords,nodes near coords style={font=\footnotesize,anchor=west}] coordinates {(2.752,2) [2.75\,$\mu$s]};
+\addplot[xbar,bar shift=0pt,fill=barGreen,draw=black!55,bar width=0.62cm,point meta=explicit symbolic,nodes near coords,nodes near coords style={font=\footnotesize,anchor=west}] coordinates {(6.492,3) [6.49\,$\mu$s]};
+\addplot[xbar,bar shift=0pt,fill=lightBlue,draw=black!55,bar width=0.62cm,point meta=explicit symbolic,nodes near coords,nodes near coords style={font=\footnotesize,anchor=west}] coordinates {(387.9,4) [387.88\,$\mu$s]};
+\addplot[xbar,bar shift=0pt,fill=kRed,draw=black!55,bar width=0.62cm,point meta=explicit symbolic,nodes near coords,nodes near coords style={font=\footnotesize,anchor=west}] coordinates {(589.1,5) [589.09\,$\mu$s]};
+\end{axis}\end{tikzpicture}
+\end{document}

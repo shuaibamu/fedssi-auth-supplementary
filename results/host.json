@@ -1,0 +1,11 @@
+{
+ "vcpus": 1,
+ "mem_total_mb": 3999,
+ "kernel": "6.18 (virtual machine)",
+ "java": "openjdk version \"21.0.10\" 2026-01-20",
+ "besu": "24.12.2",
+ "jvm_heap_per_node": "256m (-Xmx200m used for n>=7)",
+ "consensus": "QBFT, block period 2 s",
+ "gas_price": 0,
+ "block_gas_limit": "0x1fffffffffffff"
+}

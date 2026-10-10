@@ -1,0 +1,87 @@
+{
+ "deploy_gas": {
+  "DIDRegistry": 319719,
+  "RevocationList": 209210,
+  "TrustAnchorRegistry": 454525
+ },
+ "tx_gas": {
+  "registerDomain": {
+   "n": 2,
+   "min": 48320,
+   "max": 48332,
+   "median": 48326.0
+  },
+  "registerDID": {
+   "n": 20,
+   "min": 91126,
+   "max": 91150,
+   "median": 91150.0
+  },
+  "updateDIDDocument": {
+   "n": 1,
+   "min": 36228,
+   "max": 36228,
+   "median": 36228
+  },
+  "deactivateDID": {
+   "n": 1,
+   "min": 30343,
+   "max": 30343,
+   "median": 30343
+  },
+  "createList": {
+   "n": 1,
+   "min": 45727,
+   "max": 45727,
+   "median": 45727
+  },
+  "addTrustAssertion": {
+   "n": 1,
+   "min": 139115,
+   "max": 139115,
+   "median": 139115
+  },
+  "revokeTrustAssertion": {
+   "n": 1,
+   "min": 32640,
+   "max": 32640,
+   "median": 32640
+  },
+  "revokeIndex_first_bit_in_word": {
+   "n": 2,
+   "min": 47944,
+   "max": 47956,
+   "median": 47950.0
+  },
+  "revokeIndex_bit_in_populated_word": {
+   "n": 1,
+   "min": 30844,
+   "max": 30844,
+   "median": 30844
+  }
+ },
+ "views": {
+  "resolveDID": {
+   "estimate_gas_if_sent": 28407,
+   "call_ms_median": 17.875611499903243,
+   "call_ms_p95": 37.57275399993887
+  },
+  "resolveDIDs": {
+   "estimate_gas_if_sent": 31076,
+   "call_ms_median": 16.053535000082775,
+   "call_ms_p95": 27.066309000019828
+  },
+  "isRevoked": {
+   "estimate_gas_if_sent": 24313,
+   "call_ms_median": 15.727500000139116,
+   "call_ms_p95": 27.890810999906535
+  },
+  "isTrusted": {
+   "estimate_gas_if_sent": 26049,
+   "call_ms_median": 16.20870950000608,
+   "call_ms_p95": 27.361366000150156
+  }
+ },
+ "solc": "0.8.20 optimizer 200 runs, evmVersion london",
+ "evm": "Hyperledger Besu 24.12.2 (QBFT, 1 validator)"
+}

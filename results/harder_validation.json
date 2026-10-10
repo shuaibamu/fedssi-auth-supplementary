@@ -1,0 +1,197 @@
+{
+ "lofo": {
+  "DOS_SYN_Hping": {
+   "n_heldout": 94659,
+   "recall_heldout": 0.9904921877475993,
+   "missed": 900,
+   "benign_test_n": 3127,
+   "benign_blocked": 21,
+   "fpr_benign": 0.006715701950751519,
+   "precision_combined": 0.9997760716570697
+  },
+  "ARP_poisioning": {
+   "n_heldout": 7750,
+   "recall_heldout": 0.25987096774193547,
+   "missed": 5736,
+   "benign_test_n": 3127,
+   "benign_blocked": 1,
+   "fpr_benign": 0.0003197953309881676,
+   "precision_combined": 0.9995037220843672
+  },
+  "NMAP_UDP_SCAN": {
+   "n_heldout": 2590,
+   "recall_heldout": 0.35714285714285715,
+   "missed": 1665,
+   "benign_test_n": 3127,
+   "benign_blocked": 18,
+   "fpr_benign": 0.005756315957787016,
+   "precision_combined": 0.9809119830328739
+  },
+  "NMAP_XMAS_TREE_SCAN": {
+   "n_heldout": 2010,
+   "recall_heldout": 1.0,
+   "missed": 0,
+   "benign_test_n": 3127,
+   "benign_blocked": 21,
+   "fpr_benign": 0.006715701950751519,
+   "precision_combined": 0.9896602658788775
+  },
+  "NMAP_OS_DETECTION": {
+   "n_heldout": 2000,
+   "recall_heldout": 1.0,
+   "missed": 0,
+   "benign_test_n": 3127,
+   "benign_blocked": 24,
+   "fpr_benign": 0.007675087943716022,
+   "precision_combined": 0.9881422924901185
+  },
+  "NMAP_TCP_scan": {
+   "n_heldout": 1002,
+   "recall_heldout": 1.0,
+   "missed": 0,
+   "benign_test_n": 3127,
+   "benign_blocked": 23,
+   "fpr_benign": 0.007355292612727854,
+   "precision_combined": 0.9775609756097561
+  },
+  "DDOS_Slowloris": {
+   "n_heldout": 534,
+   "recall_heldout": 0.9887640449438202,
+   "missed": 6,
+   "benign_test_n": 3127,
+   "benign_blocked": 21,
+   "fpr_benign": 0.006715701950751519,
+   "precision_combined": 0.9617486338797814
+  },
+  "Metasploit_Brute_Force_SSH": {
+   "n_heldout": 37,
+   "recall_heldout": 0.918918918918919,
+   "missed": 3,
+   "benign_test_n": 3127,
+   "benign_blocked": 20,
+   "fpr_benign": 0.0063959066197633516,
+   "precision_combined": 0.6296296296296297
+  },
+  "NMAP_FIN_SCAN": {
+   "n_heldout": 28,
+   "recall_heldout": 1.0,
+   "missed": 0,
+   "benign_test_n": 3127,
+   "benign_blocked": 21,
+   "fpr_benign": 0.006715701950751519,
+   "precision_combined": 0.5714285714285714
+  }
+ },
+ "ordered_block_70_30": {
+  "n_train": 86181,
+  "n_test": 36936,
+  "test_benign": 0,
+  "test_attack": 36936,
+  "attack_recall": 0.845164609053498,
+  "missed": 5719,
+  "per_class": {
+   "DOS_SYN_Hping": {
+    "n": 29269,
+    "recall": 1.0,
+    "in_train": true
+   },
+   "Metasploit_Brute_Force_SSH": {
+    "n": 37,
+    "recall": 0.918918918918919,
+    "in_train": false
+   },
+   "NMAP_FIN_SCAN": {
+    "n": 28,
+    "recall": 0.14285714285714285,
+    "in_train": false
+   },
+   "NMAP_OS_DETECTION": {
+    "n": 2000,
+    "recall": 0.0075,
+    "in_train": false
+   },
+   "NMAP_TCP_scan": {
+    "n": 1002,
+    "recall": 0.998003992015968,
+    "in_train": false
+   },
+   "NMAP_UDP_SCAN": {
+    "n": 2590,
+    "recall": 0.34092664092664093,
+    "in_train": false
+   },
+   "NMAP_XMAS_TREE_SCAN": {
+    "n": 2010,
+    "recall": 0.005970149253731343,
+    "in_train": false
+   }
+  }
+ },
+ "within_session_ordered": {
+  "n_train": 92338,
+  "n_test": 30779,
+  "metrics": {
+   "tp": 27633,
+   "tn": 3114,
+   "fp": 12,
+   "fn": 20,
+   "precision": 0.9995659251220835,
+   "recall": 0.9992767511662387,
+   "fpr": 0.003838771593090211,
+   "f1_attack": 0.9994213172266628,
+   "f1_benign": 0.994888178913738,
+   "macro_f1": 0.9971547480702004,
+   "accuracy": 0.9989603300951948
+  },
+  "per_class": {
+   "MQTT_Publish": {
+    "n": 1036,
+    "rate": 0.005791505791505791
+   },
+   "Thing_Speak": {
+    "n": 2027,
+    "rate": 0.00246669955599408
+   },
+   "Wipro_bulb": {
+    "n": 63,
+    "rate": 0.015873015873015872
+   },
+   "ARP_poisioning": {
+    "n": 1938,
+    "rate": 0.9896800825593395
+   },
+   "DDOS_Slowloris": {
+    "n": 134,
+    "rate": 1.0
+   },
+   "DOS_SYN_Hping": {
+    "n": 23665,
+    "rate": 1.0
+   },
+   "Metasploit_Brute_Force_SSH": {
+    "n": 9,
+    "rate": 1.0
+   },
+   "NMAP_FIN_SCAN": {
+    "n": 7,
+    "rate": 1.0
+   },
+   "NMAP_OS_DETECTION": {
+    "n": 500,
+    "rate": 1.0
+   },
+   "NMAP_TCP_scan": {
+    "n": 250,
+    "rate": 1.0
+   },
+   "NMAP_UDP_SCAN": {
+    "n": 648,
+    "rate": 1.0
+   },
+   "NMAP_XMAS_TREE_SCAN": {
+    "n": 502,
+    "rate": 1.0
+   }
+  }
+ }
+}

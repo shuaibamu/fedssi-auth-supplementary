@@ -1,0 +1,15 @@
+[      1s] 26 timing/rate features, 35 non-timing features
+[     11s] in-domain non-timing model macroF1 0.99117
+[     14s] scored Friday-WorkingHours-Afternoon-DDos (225745)
+[     17s] scored Friday-WorkingHours-Afternoon-PortScan (286467)
+[     20s] scored Friday-WorkingHours-Morning (191033)
+[     28s] scored Monday-WorkingHours (529918)
+[     33s] scored Thursday-WorkingHours-Afternoon-Infilteration (288602)
+[     36s] scored Thursday-WorkingHours-Morning-WebAttacks (170366)
+[     44s] scored Tuesday-WorkingHours (445909)
+[     55s] scored Wednesday-workingHours (692703)
+[     58s] AUC {'pooled_61': 0.5794, 'pooled_nontiming': 0.7327, 'Friday-WorkingHours-Afternoon-DDos': {'auc61': 0.576, 'auc_nontiming': 0.6175}, 'Friday-WorkingHours-Afternoon-PortScan': {'auc61': 0.6672, 'auc_nontiming': 0.842}, 'Friday-WorkingHours-Morning': {'auc61': 0.4031, 'auc_nontiming': 0.5473}, 'Thursday-WorkingHours-Afternoon-Infilteration': {'auc61': 0.3608, 'auc_nontiming': 0.7458}, 'Thursday-WorkingHours-Morning-WebAttacks': {'auc61': 0.197, 'auc_nontiming': 0.7371}, 'Tuesday-WorkingHours': {'auc61': 0.5779, 'auc_nontiming': 0.4759}, 'Wednesday-workingHours': {'auc61': 0.543, 'auc_nontiming': 0.6985}}
+[     62s] rebaseline q=0.99: {'Friday-WorkingHours-Afternoon-DDos': (0.0053, 0.0), 'Friday-WorkingHours-Afternoon-PortScan': (0.0093, 0.0), 'Friday-WorkingHours-Morning': (0.0087, 0.0), 'Monday-WorkingHours': (0.0051, None), 'Thursday-WorkingHours-Afternoon-Infilteration': (0.0076, 0.0278), 'Thursday-WorkingHours-Morning-WebAttacks': (0.0089, 0.0), 'Tuesday-WorkingHours': (0.0081, 0.0), 'Wednesday-workingHours': (0.0086, 0.0011)}
+[     98s] CIC in-domain control: macroF1 0.99699 recall 0.99501 fpr 0.00115
+[     99s] reverse CIC->RT: recall 0.0001 fpr 0.0000 macroF1 0.0923
+[     99s] DONE

@@ -1,0 +1,22 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{amsmath,amssymb}\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pgfplots}\pgfplotsset{compat=1.17}
+\usetikzlibrary{arrows.meta,positioning,shadows,fit,calc,backgrounds,patterns}
+\definecolor{lav}{HTML}{E6E6FF}\definecolor{pinkb}{HTML}{FFDDDD}\definecolor{greenb}{HTML}{DDFFDD}\definecolor{yelb}{HTML}{FFFBCF}\definecolor{peach}{HTML}{FFEBD6}\definecolor{mauve}{HTML}{F0E6F0}
+\definecolor{reqblue}{HTML}{0000BB}\definecolor{resgreen}{HTML}{008800}\definecolor{dred}{HTML}{CC0000}\definecolor{domblue}{HTML}{000099}\definecolor{crimson}{HTML}{990033}
+\definecolor{tbBlue}{HTML}{1F77B4}\definecolor{tbOrange}{HTML}{FF7F0E}\definecolor{tbGreen}{HTML}{2CA02C}\definecolor{tbRed}{HTML}{D62728}\definecolor{tbPurple}{HTML}{9467BD}\definecolor{tbBrown}{HTML}{8C564B}
+\definecolor{barGreen}{HTML}{1B8754}\definecolor{darkGreen}{HTML}{2E7D32}\definecolor{lightBlue}{HTML}{A0C4FF}\definecolor{kRed}{HTML}{DC3545}
+\definecolor{accB}{HTML}{3366FF}\definecolor{f1O}{HTML}{FF7F50}\definecolor{aucG}{HTML}{44CC11}
+\tikzset{node/.style={draw,rounded corners=2.5pt,thick,align=center},
+ req/.style={-{Stealth[length=2.4mm]},thick,reqblue},res/.style={-{Stealth[length=2.4mm]},thick,dashed,resgreen}}
+\pgfplotsset{every axis/.append style={tick label style={font=\footnotesize},label style={font=\small},title style={font=\small},legend style={font=\footnotesize,fill=white,fill opacity=.9,text opacity=1,draw=black!25,rounded corners=1pt},
+ grid style={dotted,black!35}}}
+\begin{document}
+\begin{tikzpicture}\begin{axis}[width=15.5cm,height=7cm,ybar,bar width=0.52cm,ymin=0.9,ymax=1.005,ylabel={Score},xtick={0,...,5},xticklabels={Logistic Regression,Decision Tree,k-NN,SVM (RBF),Gradient Boosting,Random Forest (Ours)},x tick label style={rotate=15,anchor=east,font=\footnotesize},enlarge x limits=0.1,
+ title={Gateway classifier performance on RT-IoT2022 (held-out test, with cross-validation 95\% CI)},ymajorgrids,legend style={at={(0.5,-0.33)},anchor=north,font=\footnotesize,legend columns=2,legend cell align=left},legend cell align=left]
+\addplot[fill=accB,draw=black!40] coordinates {(0,0.974269) (1,0.998571) (2,0.997011) (3,0.983853) (4,0.998051) (5,0.99896)}; \addlegendentry{Accuracy}
+\addplot[fill=f1O,draw=black!40] coordinates {(0,0.985496) (1,0.999204) (2,0.998337) (3,0.990943) (4,0.998915) (5,0.999421)}; \addlegendentry{F1 (Unauthorized)}
+\addplot[fill=aucG,draw=black!40] coordinates {(0,0.997239) (1,0.996155) (2,0.997449) (3,0.998728) (4,0.999857) (5,0.99998)}; \addlegendentry{ROC-AUC}
+\addplot[only marks,mark=x,mark size=2.6pt,line width=1pt,black,error bars/.cd,y dir=both,y explicit,error bar style={line width=.8pt}] coordinates {(0,0.932279) +- (0,0.005634) (1,0.994395) +- (0,0.000702) (2,0.991252) +- (0,0.001263) (3,0.956571) +- (0,0.002950) (4,0.994208) +- (0,0.001014) (5,0.996260) +- (0,0.000705)}; \addlegendentry{5-fold CV macro-F1, mean $\pm$ 95\% CI}
+\end{axis}\end{tikzpicture}
+\end{document}
